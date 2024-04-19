@@ -4,6 +4,8 @@ import { IoMdMenu } from "react-icons/io";
 import { MdOutlineNotificationsNone } from "react-icons/md";
 import { RiShoppingCartLine } from "react-icons/ri";
 import { NavLink } from "react-router-dom";
+import Login from "../Home/Login";
+import Signup from "../Home/Signup";
 import SearchProductMobile from "../ui/SearchProductMobile";
 import CartSidebar from "./CartSidebar";
 import Sidebar from "./Sidebar";
@@ -12,11 +14,13 @@ export default function Navbar() {
     const [openSidebar, closeSidebar] = useState(false);
     const [showCart, closeCartbar] = useState(false);
     const [seachOnMobile, setSeachOnMobile] = useState(false);
+    const [signup, setSignup] = useState(false)
+    const [login, setLogin] = useState(false)
 
 
     return <>
 
-        <div className="relative h-[100px] ">
+        <div className="relative h-[100px]">
 
             <div className=" h-[60px] flex ml-6 sm:-ml-4 justify-center items-center ">
                 <div className=" h-full visible sm:hidden w-1/3  flex ">
@@ -40,9 +44,9 @@ export default function Navbar() {
                             👋 Hello UserName,
                         </div>
                         <div >
-                            <span className="cursor-pointer">Sign in</span>
+                            <button onClick={()=>setLogin(true)} className="cursor-pointer">Login in</button>
                             &nbsp;&&nbsp;
-                            <span className="cursor-pointer">Register</span>
+                            <button onClick={()=>setSignup(true)} className="cursor-pointer">Register</button>
                         </div>
                     </div>
                     <div className="flex justify-around md:w-1/3 items-center">
@@ -63,7 +67,7 @@ export default function Navbar() {
             </div>
             {/* s=navbar second section */}
             <div className="h-[1px] opacity-40 ml-2 mr-2 bg-black  "></div>
-            <div className=" h-[40px] flex justify-between ml-3 mr-3 items-center">
+            <div className="pl-5 pr-5 h-[40px] flex justify-between ml-3 mr-3 items-center">
 
                 <button onClick={() => closeSidebar(true)} className="hidden sm:visible font-oswald sm:flex justify-center cursor-pointer items-center"> <IoMdMenu className="text-2xl" /> &nbsp;<span className="cursor-pointer">All</span></button>
 
@@ -87,7 +91,7 @@ export default function Navbar() {
                     </NavLink>
                 </div>
                 <div className="hidden sm:block font-oswald ">
-                    <NavLink to={'/'}>Our Brand</NavLink>
+                    <NavLink to={'/ourbrand'}>Our Brand</NavLink>
                 </div>
 
             </div>
@@ -97,6 +101,11 @@ export default function Navbar() {
             {showCart ? <CartSidebar closeCartbar={closeCartbar} /> : ''}
             {seachOnMobile ? <SearchProductMobile setSeachOnMobile={setSeachOnMobile} /> : ''}
         </div>
-        {/* right hand sidebar */}
+        {/*Sigup login modal */}
+
+        {signup ? <Signup setLogin={setLogin} setSignup={setSignup}  /> : ''}
+        {login ? <Login setLogin={setLogin} setSignup={setSignup}  /> : ''}
+
     </>
+
 }

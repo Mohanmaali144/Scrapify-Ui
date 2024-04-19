@@ -9,7 +9,7 @@ export default function CarouselHome(params) {
        
         {/* ------------ */}
         <Carousel>
-        <div className="h-full  bg-red-400">
+        <div className="h-full  bg-red-400 -z-0">
             <div className="flex ml-8 flex-col justify-center  font-bold sm:w-1/2  h-full font-oswald">
                 <div className="h-2/5 ml-3">
                     <p className="text-xl mb-3 md:text-3xl">Sell Your Scrap, Find Unique Eco-Creations</p>

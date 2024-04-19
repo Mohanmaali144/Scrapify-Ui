@@ -4,6 +4,7 @@ import { Route, Routes } from 'react-router-dom';
 import './App.css';
 import Category from './components/Home/Category';
 import Home from './components/Home/Home';
+import OurBrand from './components/Home/OurBrand';
 import SellProducts from './components/Home/SellProducts';
 import SellScrap from './components/Home/SellScrap';
 import Shop from './components/Home/Shop';
@@ -20,6 +21,7 @@ function App() {
         <Route path='/sellproduct' element={<SellProducts />} ></Route>
         <Route path='/list-scrap' element={<SellScrap />}></Route>
         <Route path='/category' element={<Category />}></Route>
+        <Route path='/ourbrand' element={<OurBrand />}></Route>
       </Routes>
     </>
   );
