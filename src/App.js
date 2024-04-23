@@ -1,5 +1,4 @@
-import '@shoelace-style/shoelace/dist/themes/light.css';
-import { setBasePath } from '@shoelace-style/shoelace/dist/utilities/base-path.js';
+import React, { createContext, useState } from 'react';
 import { Route, Routes } from 'react-router-dom';
 import './App.css';
 import Category from './components/Home/Category';
@@ -8,22 +7,30 @@ import OurBrand from './components/Home/OurBrand';
 import SellProducts from './components/Home/SellProducts';
 import SellScrap from './components/Home/SellScrap';
 import Shop from './components/Home/Shop';
-setBasePath('/path/to/shoelace/dist');
-setBasePath('https://cdn.jsdelivr.net/npm/@shoelace-style/shoelace@2.15.0/cdn/');
+import { ToastContainer } from 'react-toastify';
+import Navbar from './components/Navbar/Navbar';
 
+// Create the UserContext
+export const UserContext = createContext();
 
 function App() {
+  const [user, setUser] = useState(null);
+
   return (
-    <>
-      <Routes>
-        <Route path='/' element={<Home />}></Route>
-        <Route path='/shop' element={<Shop />}></Route>
-        <Route path='/sellproduct' element={<SellProducts />} ></Route>
-        <Route path='/list-scrap' element={<SellScrap />}></Route>
-        <Route path='/category' element={<Category />}></Route>
-        <Route path='/ourbrand' element={<OurBrand />}></Route>
-      </Routes>
-    </>
+    <UserContext.Provider value={{ user, setUser }}>
+      <>
+        <Navbar />
+        <ToastContainer />
+        <Routes>
+          <Route path='/' element={<Home />} />
+          <Route path='/shop' element={<Shop />} />
+          <Route path='/sellproduct' element={<SellProducts />} />
+          <Route path='/list-scrap' element={<SellScrap />} />
+          <Route path='/category' element={<Category />} />
+          <Route path='/ourbrand' element={<OurBrand />} />
+        </Routes>
+      </>
+    </UserContext.Provider>
   );
 }
 

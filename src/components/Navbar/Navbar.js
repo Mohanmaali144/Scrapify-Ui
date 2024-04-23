@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useCallback, useContext, useEffect, useState } from "react";
 import { FaSearch } from "react-icons/fa";
 import { IoMdMenu } from "react-icons/io";
 import { MdOutlineNotificationsNone } from "react-icons/md";
@@ -9,17 +9,33 @@ import Signup from "../Home/Signup";
 import SearchProductMobile from "../ui/SearchProductMobile";
 import CartSidebar from "./CartSidebar";
 import Sidebar from "./Sidebar";
+
+import { UserContext } from "../../App";
+
 export default function Navbar() {
 
+    const { user, setUser } = useContext(UserContext);
+
+    console.log(user);
+    console.log("navabar...................testing");
     const [openSidebar, closeSidebar] = useState(false);
     const [showCart, closeCartbar] = useState(false);
     const [seachOnMobile, setSeachOnMobile] = useState(false);
     const [signup, setSignup] = useState(false)
     const [login, setLogin] = useState(false)
+    const [userName, setUserName] = useState("Friend");
+
+    useEffect(() => {
+        const userData = sessionStorage.getItem('current-user');
+        if (userData) {
+            const parsedUserData = JSON.parse(userData);
+            setUserName(parsedUserData.username || "Friend");
+        }
+    }, [user]);
+
 
 
     return <>
-
         <div className="relative h-[100px]">
 
             <div className=" h-[60px] flex ml-6 sm:-ml-4 justify-center items-center ">
@@ -41,12 +57,12 @@ export default function Navbar() {
                     <div className="hidden md:block">
                         {/* signup/signin */}
                         <div className="">
-                            👋 Hello UserName,
+                            👋 Hello {userName},
                         </div>
                         <div >
-                            <button onClick={()=>setLogin(true)} className="cursor-pointer">Login in</button>
+                            <button onClick={() => setLogin(true)} className="cursor-pointer">Login in</button>
                             &nbsp;&&nbsp;
-                            <button onClick={()=>setSignup(true)} className="cursor-pointer">Register</button>
+                            <button onClick={() => setSignup(true)} className="cursor-pointer">Register</button>
                         </div>
                     </div>
                     <div className="flex justify-around md:w-1/3 items-center">
@@ -103,8 +119,8 @@ export default function Navbar() {
         </div>
         {/*Sigup login modal */}
 
-        {signup ? <Signup setLogin={setLogin} setSignup={setSignup}  /> : ''}
-        {login ? <Login setLogin={setLogin} setSignup={setSignup}  /> : ''}
+        {signup ? <Signup setLogin={setLogin} setSignup={setSignup} /> : ''}
+        {login ? <Login setLogin={setLogin} setSignup={setSignup} /> : ''}
 
     </>
 
