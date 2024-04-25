@@ -35,24 +35,25 @@ function App() {
 
 
   return (
-   
-      <UserContext.Provider value={{ user, setUser }}>
-        <>
-          {!hideNavbar && <Navbar />}
-          <ToastContainer />
-          <Routes>
-            <Route path='/' element={<Home />} />
-            <Route path='/shop' element={<Shop />} />
-            <Route path='/sellproduct' element={<SellProducts />} />
-            <Route path='/list-scrap' element={<SellScrap />} />
-            <Route path='/category' element={<Category />} />
-            <Route path='/ourbrand' element={<OurBrand />} />
-            <Route path='/deshboard' element={<Menu />} />
-            <Route path='/profile' element={<MyProfile />} />
-          </Routes>
-          {!hideFooter && <Footer />}
-        </>
-      </UserContext.Provider>
+
+    <UserContext.Provider value={{ user, setUser }}>
+      <>
+        {!hideNavbar && <Navbar />}
+        <ToastContainer />
+        <Routes>
+          <Route path='/' element={<Home />} />
+          <Route path='/shop' element={<Shop />} />
+          <Route path='/sellproduct' element={<SellProducts />} />
+          <Route path='/list-scrap' element={<SellScrap />} />
+          <Route path='/category' element={<Category />} />
+          <Route path='/ourbrand' element={<OurBrand />} />
+          <Route path='/deshboard' element={<Menu />} />
+          <Route path='/profile' element={<MyProfile />}>
+          </Route>
+        </Routes>
+        {!hideFooter && <Footer />}
+      </>
+    </UserContext.Provider>
   );
 }
 

@@ -1,5 +1,6 @@
 import { useState } from "react";
 import ProductUplodedForm from "../ui/ProductUplodedForm";
+import UserScrapList from "../ui/UserScrapList";
 
 export default function SellProducts() {
     const [Upload, setUpload] = useState(false);
@@ -9,10 +10,10 @@ export default function SellProducts() {
     }
 
     return (
-        <div className="h-screen w-screen bg-slate-50 ">
+        <div className="sm:w-full  ">
             <button onClick={HandleshowForme}
                 title="Add New"
-                className="group cursor-pointer outline-none float-right mr-10 mt-2 hover:rotate-90 duration-300"
+                className="group w-[55px]  cursor-pointer outline-none float-right mr-10 mt-2 hover:rotate-90 duration-300"
             >
                 <svg
                     xmlns="http://www.w3.org/2000/svg"
@@ -30,8 +31,10 @@ export default function SellProducts() {
                 </svg>
             </button>
 
-            <div>
-                {Upload ? <ProductUplodedForm /> : ''}
+            <div className="float-left w-10/12 h-auto  ">
+                <h3 className="text-center font-oswald font-semibold text-2xl mb-2">Your Scrap</h3>
+                {Upload ? <ProductUplodedForm /> : <UserScrapList />}
+
             </div>
         </div>
     );
