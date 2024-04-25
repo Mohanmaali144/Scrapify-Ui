@@ -48,8 +48,7 @@ function App() {
           <Route path='/category' element={<Category />} />
           <Route path='/ourbrand' element={<OurBrand />} />
           <Route path='/deshboard' element={<Menu />} />
-          <Route path='/profile' element={<MyProfile />}>
-          </Route>
+          <Route path='/profile' element={<MyProfile />} />
         </Routes>
         {!hideFooter && <Footer />}
       </>

@@ -4,9 +4,9 @@ import { Button, FileInput, Label, TextInput } from "flowbite-react";
 import { useState } from 'react';
 import { useSelector } from 'react-redux';
 
-export default function ProductUplodedForm() {
+export default function ScrapUploadForm() {
     const [images, setImages] = useState([]);
-    const { categoryList, isLoading, error } = useSelector((store) => store.category);
+    const { scrapcategoryList, isLoading, error } = useSelector((store) => store.scrapcategory);
 
     const handleFileChange = (e) => {
         const files = e.target.files;
@@ -38,9 +38,19 @@ export default function ProductUplodedForm() {
                         <Label htmlFor="category" value="category" />
                     </div>
                     <SlSelect>
-                        {categoryList.map((category, index) => (
+                        {scrapcategoryList.map((category, index) => (
                             <SlOption key={index} value={category.categoryName}>{category.categoryName}</SlOption>
                         ))}
+                    </SlSelect>
+                </div>
+                <div>
+                    <div className="mb-2 block">
+                        <Label htmlFor="condition" value="Condition" />
+                    </div>
+                    <SlSelect>
+                        <SlOption selected value="Good">GOOD</SlOption>
+                        <SlOption value="Medium">Medium</SlOption>
+                        <SlOption value="Worst">Worst</SlOption>
                     </SlSelect>
                 </div>
                 <div className='col-span-2'>

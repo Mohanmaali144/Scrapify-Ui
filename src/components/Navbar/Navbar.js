@@ -103,13 +103,13 @@ export default function Navbar() {
                 <div className="font-oswald ">
                     <NavLink to={'/'}>Home</NavLink>
                 </div>
-                <div className="hidden sm:block font-oswald ">
+                <div className="  font-oswald ">
                     <NavLink to={'shop'}>Shop</NavLink>
                 </div>
-                <div className="hidden sm:block font-oswald ">
+                <div className=" sm:block font-oswald ">
                     <NavLink to={'/category'}>Category</NavLink>
                 </div>
-                <div className="hidden sm:block font-oswald ">
+                <div className=" sm:block font-oswald ">
                     <NavLink to={'/ourbrand'}>Our Brand</NavLink>
                 </div>
 

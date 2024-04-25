@@ -4,6 +4,7 @@ import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { getCategory } from "../../redux-config/CategorySlice";
 import { getProduct } from "../../redux-config/ProductSlice";
+import { getScrapCategorySlice } from "../../redux-config/ScrapCategory";
 import CarouselHome from "../ui/CarosuelHome";
 import CoustumerSectionHome from "../ui/CoustumerSectionHome";
 import LockDealNowSection from "../ui/LockDealNowSection";
@@ -17,6 +18,7 @@ export default function Home() {
     useEffect(() => {
         dispatch(getProduct());
         dispatch(getCategory())
+        dispatch(getScrapCategorySlice())
     }, []);
     return (
         <>

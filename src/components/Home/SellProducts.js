@@ -32,7 +32,7 @@ export default function SellProducts() {
             </button>
 
             <div className="float-left w-10/12 h-auto  ">
-                <h3 className="text-center font-oswald font-semibold text-2xl mb-2">Your Scrap</h3>
+                <h3 className="text-center font-oswald font-semibold text-2xl mb-2">Your Creatives</h3>
                 {Upload ? <ProductUplodedForm /> : <UserScrapList />}
 
             </div>
