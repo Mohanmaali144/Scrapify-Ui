@@ -1,11 +1,11 @@
-import React, { useState, useEffect, useContext } from 'react';
-import './css/otp.css';
 import axios from 'axios';
-import Api from '../WebApi';
-import { toast } from 'react-toastify';
+import React, { useContext, useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { toast } from 'react-toastify';
 import { UserContext } from '../../App';
-const OTPForm = ({ setShowOtp, handleSendOtp, username, email, password, contact }) => {
+import Api from '../WebApi';
+import './css/otp.css';
+const OTPForm = ({ setShowOtp, handleSendOtp, username, email, password, contact, setSignup }) => {
     const [otp, setOtp] = useState(['', '', '', '']);
     const [resendTimer, setResendTimer] = useState(30);
     const [otpError, setotpError] = useState("");
@@ -34,8 +34,10 @@ const OTPForm = ({ setShowOtp, handleSendOtp, username, email, password, contact
 
             sessionStorage.setItem("current-user", JSON.stringify(response.data.user))
             sessionStorage.setItem("user-token", JSON.stringify(response.data.token))
+
             console.log(response.data);
             setUser(response.data.user);
+            setSignup(false)
             navigate("/");
 
 

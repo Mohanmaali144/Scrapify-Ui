@@ -1,13 +1,13 @@
+import axios from "axios";
 import { Button, Checkbox, Label, TextInput } from "flowbite-react";
-import { useState, useCallback } from "react";
+import { useState } from "react";
 import { IoClose } from "react-icons/io5";
-import OTPForm from "../ui/Otp";
-import './css/signup.css';
-import axios from "axios"
-import Api from "../WebApi";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import 'react-toastify/dist/ReactToastify.css';
+import Api from "../WebApi";
+import OTPForm from "../ui/Otp";
+import './css/signup.css';
 export default function Signup({ setSignup, setLogin }) {
 
 
@@ -92,7 +92,7 @@ export default function Signup({ setSignup, setLogin }) {
             <div className="signupbg absolute top-0 w-screen h-screen z-50 flex justify-center ">
                 <div className='absolute w-11/12 sm:w-10/12 md:w-5/12 h-screen bg-white rounded-2xl pt-2 sm:mt-[40px]'>
                     {otp ? (
-                        <OTPForm username={username} contact={contact} email={email} password={password} setShowOtp={setShowOtp} handleSendOtp={handleSendOtp} />
+                        <OTPForm username={username} contact={contact} email={email} password={password} setSignup={setSignup} setShowOtp={setShowOtp} handleSendOtp={handleSendOtp} />
                     ) : (
                         <>
                             <div className="h-auto w-full flex items-center">
@@ -117,16 +117,16 @@ export default function Signup({ setSignup, setLogin }) {
                                         </div>
                                         <div className="col-span-2 sm:col-span-1">
                                             <div className="mb-2 block">
-                                                <Label htmlFor="email1" value="Your email" />
+                                                <Label htmlFor="email1" value="Your Contact" />
                                             </div>
-                                            <TextInput onChange={(event) => setEmail(event.target.value)} id="email1" type="email" placeholder="name@gmail.com" required />
+                                            <TextInput onChange={(event) => setContact(event.target.value)}  id="contact" type="text"  placeholder="+918877656541"   required />
                                             {errors.email && <small className="text-red-500">{errors.email}</small>}
                                         </div>
                                         <div className="col-span-2">
                                             <div className="mb-2 block">
-                                                <Label htmlFor="contact" value="Your contact" />
+                                                <Label htmlFor="contact" value="Your Email" />
                                             </div>
-                                            <TextInput onChange={(event) => setContact(event.target.value)} id="contact" type="text" placeholder="+918877656541" required />
+                                            <TextInput onChange={(event) => setEmail(event.target.value)}  id="email1" type="email" placeholder="example@gmail.com" required />
                                             {errors.contact && <small className="text-red-500">{errors.contact}</small>}
                                         </div>
                                         <div className="col-span-2 sm:col-span-1">

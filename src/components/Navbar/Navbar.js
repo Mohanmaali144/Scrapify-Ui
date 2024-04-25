@@ -1,9 +1,9 @@
-import { useCallback, useContext, useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { FaSearch } from "react-icons/fa";
 import { IoMdMenu } from "react-icons/io";
 import { MdOutlineNotificationsNone } from "react-icons/md";
 import { RiShoppingCartLine } from "react-icons/ri";
-import { NavLink } from "react-router-dom";
+import { Link, NavLink } from "react-router-dom";
 import Login from "../Home/Login";
 import Signup from "../Home/Signup";
 import SearchProductMobile from "../ui/SearchProductMobile";
@@ -15,25 +15,28 @@ import { UserContext } from "../../App";
 export default function Navbar() {
 
     const { user, setUser } = useContext(UserContext);
-
-    console.log(user);
-    console.log("navabar...................testing");
     const [openSidebar, closeSidebar] = useState(false);
     const [showCart, closeCartbar] = useState(false);
     const [seachOnMobile, setSeachOnMobile] = useState(false);
     const [signup, setSignup] = useState(false)
     const [login, setLogin] = useState(false)
-    const [userName, setUserName] = useState("Friend");
 
     useEffect(() => {
         const userData = sessionStorage.getItem('current-user');
         if (userData) {
             const parsedUserData = JSON.parse(userData);
-            setUserName(parsedUserData.username || "Friend");
+
         }
     }, [user]);
 
 
+    const handleLogout = () => {
+        if (window.confirm('Are you want to sure to LogOut')) {
+            setUser(null);
+            sessionStorage.removeItem('current-user');
+        }
+
+    }
 
     return <>
         <div className="relative h-[100px]">
@@ -57,13 +60,23 @@ export default function Navbar() {
                     <div className="hidden md:block">
                         {/* signup/signin */}
                         <div className="">
-                            👋 Hello {userName},
+                            👋 Hello {user ? (
+                                <Link to="/profile" className=""> {user.username},</Link>
+                            ) : (
+                                <span>
+                                    Friend,
+                                </span>
+                            )}
                         </div>
-                        <div >
-                            <button onClick={() => setLogin(true)} className="cursor-pointer">Login in</button>
-                            &nbsp;&&nbsp;
-                            <button onClick={() => setSignup(true)} className="cursor-pointer">Register</button>
-                        </div>
+
+                        {
+                            user ? <button onClick={handleLogout} className="cursor-pointer ml-8">Log Out</button> : <div >
+                                <button onClick={() => setLogin(true)} className="cursor-pointer">Login</button>
+                                &nbsp;&&nbsp;
+                                <button onClick={() => setSignup(true)} className="cursor-pointer">Register</button>
+                            </div>
+                        }
+
                     </div>
                     <div className="flex justify-around md:w-1/3 items-center">
 
@@ -113,7 +126,7 @@ export default function Navbar() {
             </div>
             <div className="h-[1px] opacity-40 ml-2 mr-2 bg-black"></div>
 
-            {openSidebar ? <Sidebar closeSidebar={closeSidebar} openSidebar={openSidebar} /> : ''}
+            {openSidebar ? <Sidebar handleLogout={handleLogout} setLogin={setLogin} setSignup={setSignup} closeSidebar={closeSidebar} openSidebar={openSidebar} /> : ''}
             {showCart ? <CartSidebar closeCartbar={closeCartbar} /> : ''}
             {seachOnMobile ? <SearchProductMobile setSeachOnMobile={setSeachOnMobile} /> : ''}
         </div>

@@ -1,14 +1,23 @@
 
 "use client";
+import { useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { getCategory } from "../../redux-config/CategorySlice";
+import { getProduct } from "../../redux-config/ProductSlice";
 import CarouselHome from "../ui/CarosuelHome";
 import CoustumerSectionHome from "../ui/CoustumerSectionHome";
-import Footer from "../ui/Footer";
 import LockDealNowSection from "../ui/LockDealNowSection";
 import OurAim from "../ui/OurAim";
-import ProductCard2 from "../ui/ProductCard2";
+import ProductCard from "../ui/ProductCard";
 
 
 export default function Home() {
+    const { categoryList, isLoading, error } = useSelector((store) => store.category);
+    const dispatch = useDispatch();
+    useEffect(() => {
+        dispatch(getProduct());
+        dispatch(getCategory())
+    }, []);
     return (
         <>
             {/* carousel */}
@@ -20,10 +29,7 @@ export default function Home() {
                 <CoustumerSectionHome />
             </div>
             <div className="grid sm:place-items-center lg:grid-cols-4 lg:gap-5 pl-2 pr-2 sm:grid-cols-2 sm:gap-3 grid-cols-1 place-items-center ">
-                <ProductCard2 />
-                <ProductCard2 />
-                <ProductCard2 />
-                <ProductCard2 />
+                <ProductCard />
             </div>
 
             <div>
@@ -31,9 +37,6 @@ export default function Home() {
             </div>
             <div>
                 <OurAim />
-            </div>
-            <div>
-                <Footer />
             </div>
 
         </>

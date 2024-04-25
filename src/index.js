@@ -1,17 +1,20 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
+import { Provider } from 'react-redux';
 import { BrowserRouter } from 'react-router-dom';
 import App from './App';
-import Navbar from './components/Navbar/Navbar';
 import './index.css';
+import { Store } from './redux-config/Store';
 import reportWebVitals from './reportWebVitals';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   <BrowserRouter>
-    {/* <Navbar /> */}
-    <App />
+    <Provider store={Store}>
+      <App />
+    </Provider >
   </BrowserRouter>
+
 );
 
 
