@@ -21,9 +21,13 @@ const Api = {
     // add category scrap
     AddScrapCategory: 'http://localhost:8000/api/scrapCategory/add-category',
     GetScrapCategory: 'http://localhost:8000/api/scrapCategory/getcategoryList',
+    // get prpoduct By user id 
+    GetPRoductByUserID: `http://localhost:3000/api/product/fetchProductByUserId/:userId`,
     // get scrap by user Id
-
-    GetProductByUserID: 'http://localhost:3000/api/scrapProduct/getProduct-byuserid/:userId'
+    GetScrapByUserID: 'http://localhost:3000/api/scrapProduct/getProduct-byuserid/:userId',
+    // Admin 
+    AdminSignUpApi: "http://localhost:3000/api/admin/register",
+    AdminSignInApi: "http://localhost:3000/api/admin/signIn",
 }
 
 export default Api;

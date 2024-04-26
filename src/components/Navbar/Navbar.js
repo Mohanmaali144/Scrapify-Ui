@@ -3,7 +3,7 @@ import { FaSearch } from "react-icons/fa";
 import { IoMdMenu } from "react-icons/io";
 import { MdOutlineNotificationsNone } from "react-icons/md";
 import { RiShoppingCartLine } from "react-icons/ri";
-import { Link, NavLink } from "react-router-dom";
+import { Link, NavLink, useNavigate } from "react-router-dom";
 import Login from "../Home/Login";
 import Signup from "../Home/Signup";
 import SearchProductMobile from "../ui/SearchProductMobile";
@@ -20,12 +20,13 @@ export default function Navbar() {
     const [seachOnMobile, setSeachOnMobile] = useState(false);
     const [signup, setSignup] = useState(false)
     const [login, setLogin] = useState(false)
+    const navigate = useNavigate();
 
     useEffect(() => {
         const userData = sessionStorage.getItem('current-user');
         if (userData) {
             const parsedUserData = JSON.parse(userData);
-
+           
         }
     }, [user]);
 
@@ -34,6 +35,7 @@ export default function Navbar() {
         if (window.confirm('Are you want to sure to LogOut')) {
             setUser(null);
             sessionStorage.removeItem('current-user');
+            navigate('/')
         }
 
     }

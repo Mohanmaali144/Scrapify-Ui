@@ -14,7 +14,7 @@ const ProductCard = () => {
         dispatch(getCategory())
     }, []);
 
-
+    if (!productList) return null;
 
     const productDetails = productList.slice(0, 4);
 

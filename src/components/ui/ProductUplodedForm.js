@@ -1,58 +1,164 @@
-import SlOption from '@shoelace-style/shoelace/dist/react/option';
-import SlSelect from '@shoelace-style/shoelace/dist/react/select';
+import axios from 'axios';
 import { Button, FileInput, Label, TextInput } from "flowbite-react";
-import { useState } from 'react';
+import { useContext, useState } from 'react';
 import { useSelector } from 'react-redux';
+import { ToastContainer, toast } from 'react-toastify';
+import { UserContext } from '../../App';
 
 export default function ProductUplodedForm() {
     const [images, setImages] = useState([]);
+    const [thumbnail, setThumbnail] = useState(null);
+    const [title, setTitle] = useState('');
+    const [price, setPrice] = useState('');
+    const [category, setCategory] = useState('');
+    const [description, setDescription] = useState('');
+    const [errors, setErrors] = useState({});
+    const { user, setUser } = useContext(UserContext);
+    console.log(user._id);
+
     const { categoryList, isLoading, error } = useSelector((store) => store.category);
 
     const handleFileChange = (e) => {
         const files = e.target.files;
         let newImages = [];
+        let newThumbnail = null;
+
         for (let i = 0; i < files.length; i++) {
             if (i < 4) {
-                newImages.push(files[i]);
+                if (i === 0) {
+                    newThumbnail = files[i];
+                } else {
+                    newImages.push(files[i]);
+                }
             }
         }
+
+        setThumbnail(newThumbnail);
         setImages(newImages);
     };
+
+    const validateForm = () => {
+        let errors = {};
+        let isValid = true;
+
+        if (!title.trim()) {
+            errors.title = 'Title is required';
+            isValid = false;
+        }
+
+        if (!price.trim()) {
+            errors.price = 'Price is required';
+            isValid = false;
+        }
+
+        if (!category) {
+            errors.category = 'Category is required';
+            isValid = false;
+        }
+
+        if (!description.trim()) {
+            errors.description = 'Description is required';
+            isValid = false;
+        }
+
+        setErrors(errors);
+        return isValid;
+    };
+
+    const handleSubmit = (e) => {
+
+        e.preventDefault();
+
+        if (validateForm()) {
+            const formData = new FormData();
+            formData.append('productName', title);
+            formData.append('price', price);
+            formData.append('category', category);
+            formData.append('description', description);
+            formData.append('thumbnail', thumbnail);
+            formData.append('sellerId', user._id);
+            images.forEach((image, index) => {
+                formData.append(`images[${index}]`, image);
+            });
+            
+            axios.post("http://localhost:8000/api/product/addProduct", formData)
+                .then(response => {
+                    console.log('Success:', response.data);
+                    setTitle('');
+                    setPrice('');
+                    setCategory('');
+                    setDescription('');
+                    setImages([]);
+                    setErrors({});
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                    toast.error('Internal Server Error');
+                });
+        }
+    };
+
+
     return (
+
         <div className="w-full h-full flex justify-center items-center border-2 border-slate-800 rounded-xl p-4">
-            <form className="grid-cols-2 w-10/12 grid gap-4">
+            <ToastContainer />
+            <div className="grid-cols-2 w-10/12 grid gap-4" >
                 <div>
                     <div className="mb-2 block">
                         <Label htmlFor="title" value="Product Title" />
                     </div>
-                    <TextInput id="title" type="text" placeholder="Product Title" required shadow />
+                    <TextInput
+                        id="title"
+                        type="text"
+                        placeholder="Product Title"
+                        required
+                        shadow
+                        value={title}
+                        onChange={(e) => setTitle(e.target.value)}
+                    />
+                    {errors.title && <p className="text-red-500">{errors.title}</p>}
                 </div>
                 <div className='col-span-1'>
                     <div className="mb-2 block">
                         <Label htmlFor="price" value="Scrap Price" />
                     </div>
-                    <TextInput id="title" type="text" placeholder="Scrap Price" required shadow />
+                    <TextInput
+                        id="price"
+                        type="text"
+                        placeholder="Scrap Price"
+                        required
+                        shadow
+                        value={price}
+                        onChange={(e) => setPrice(e.target.value)}
+                    />
+                    {errors.price && <p className="text-red-500">{errors.price}</p>}
                 </div>
                 <div>
                     <div className="mb-2 block">
-                        <Label htmlFor="category" value="category" />
+                        <Label htmlFor="category" value="Category" />
                     </div>
-                    <SlSelect>
+                    <select value={category} onChange={(e) => setCategory(e.target.value)}>
                         {categoryList.map((category, index) => (
-                            <SlOption key={index} value={category.categoryName}>{category.categoryName}</SlOption>
+                            <option key={index} value={category.categoryName}>{category.categoryName}</option>
                         ))}
-                    </SlSelect>
+                    </select>
+                    {errors.category && <p className="text-red-500">{errors.category}</p>}
                 </div>
                 <div className='col-span-2'>
                     <label className="form-control">
                         <div className="label">
-                            <span className="label-text">Add Scrap Descritpion</span>
-
+                            <span className="label-text">Add Scrap Description</span>
                         </div>
-                        <textarea className="textarea textarea-bordered h-24" placeholder="Add Scrap Descritpion"></textarea>
+                        <textarea
+                            className="textarea textarea-bordered h-24"
+                            placeholder="Add Scrap Description"
+                            value={description}
+                            onChange={(e) => setDescription(e.target.value)}
+                        ></textarea>
                     </label>
+                    {errors.description && <p className="text-red-500">{errors.description}</p>}
                 </div>
-                {/* thumbnail upload */}
                 <div className='col-span-1'>
                     <div className="mb-2 mt-1">
                         <div>
@@ -61,7 +167,6 @@ export default function ProductUplodedForm() {
                         <FileInput id="small-file-upload" sizing="sm" />
                     </div>
                 </div>
-                {/* images upload */}
                 <div className='col-span-2'>
                     <div className='bg-[#374151] p-2 w-1/2 text-white text-sm rounded-lg '>
                         <label htmlFor="image-upload" className="cursor-pointer inline-block ">
@@ -88,10 +193,10 @@ export default function ProductUplodedForm() {
                             </div>
                         )}
                     </div>
-
                 </div>
-                <Button className='col-span-2 bg-[#374151]' type="submit">Upload</Button>
-            </form>
+                <Button className='col-span-2 bg-[#374151]' onClick={handleSubmit}>Upload</Button>
+
+            </div>
         </div>
     );
 }

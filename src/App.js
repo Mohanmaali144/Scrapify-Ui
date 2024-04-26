@@ -4,7 +4,10 @@ import React, { createContext, useEffect, useState } from 'react';
 import { Route, Routes, useLocation } from 'react-router-dom';
 import { ToastContainer } from 'react-toastify';
 import './App.css';
-import Menu from './components/Admin/AdminUi/Menu';
+import PageNotFound from './PageNotFound';
+import AdminSignIn from './components/Admin/AdminSignIn';
+import AdminSignUp from './components/Admin/AdminSignUp';
+import Menu from './components/Admin/Menu';
 import Category from './components/Home/Category';
 import Home from './components/Home/Home';
 import MyProfile from './components/Home/MyProfile';
@@ -21,24 +24,35 @@ export const UserContext = createContext();
 function App() {
   const [user, setUser] = useState(null);
   const location = useLocation();
+  const shouldHideNavbarFooter =
+    location.pathname.startsWith('/dashboard') ||
+    location.pathname.startsWith('/admin') ||
+    location.pathname.startsWith('/signUp');
+
+  // You may need to declare these states if they are used in your Navbar and Footer components
   const [hideNavbar, setHideNavbar] = useState(false);
   const [hideFooter, setHideFooter] = useState(false);
+
   useEffect(() => {
-    if (location.pathname === '/deshboard') {
-      setHideNavbar(true);
-      setHideFooter(true);
-    } else {
-      setHideNavbar(false);
-      setHideFooter(false);
-    }
+    const isDashboardRoute = location.pathname.startsWith('/dashboard');
+    const isAdminRoute = location.pathname.startsWith('/admin');
+    const isAdminSign = location.pathname.startsWith('/signUp');
+    setHideNavbar(isDashboardRoute || isAdminRoute || isAdminSign);
+    setHideFooter(isDashboardRoute || isAdminRoute || isAdminSign);
+
+    return () => {
+      setHideNavbar(false); 
+      setHideFooter(false); 
+    };
   }, [location]);
+
 
 
   return (
 
     <UserContext.Provider value={{ user, setUser }}>
       <>
-        {!hideNavbar && <Navbar />}
+        {!shouldHideNavbarFooter && <Navbar />}
         <ToastContainer />
         <Routes>
           <Route path='/' element={<Home />} />
@@ -47,10 +61,15 @@ function App() {
           <Route path='/list-scrap' element={<SellScrap />} />
           <Route path='/category' element={<Category />} />
           <Route path='/ourbrand' element={<OurBrand />} />
-          <Route path='/deshboard' element={<Menu />} />
           <Route path='/profile' element={<MyProfile />} />
+          {/* admin start */}
+          <Route path='/dashboard' element={<AdminSignIn />} />
+          <Route path='/signUp' element={<AdminSignUp />} />
+          <Route path='/adminHome' element={<Menu />} />
+          {/* admin end */}
+          <Route path='*' element={<PageNotFound />} />
         </Routes>
-        {!hideFooter && <Footer />}
+        {!shouldHideNavbarFooter && <Footer />}
       </>
     </UserContext.Provider>
   );

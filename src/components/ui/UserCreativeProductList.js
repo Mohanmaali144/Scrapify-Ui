@@ -1,6 +1,9 @@
-import React from "react";
+import React, { useEffect } from "react";
 
 export default function UserCreativeProductList() {
+    useEffect(()=>{
+        
+    })
     return (
         <div className="">
             <div className="rounded-xl shadow-2xl p-2 h-auto bg-white m-2 flex justify-around items-center">
