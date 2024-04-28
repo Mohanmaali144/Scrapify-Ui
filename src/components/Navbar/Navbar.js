@@ -98,7 +98,7 @@ export default function Navbar() {
             </div>
             {/* s=navbar second section */}
             <div className="h-[1px] opacity-40 ml-2 mr-2 bg-black  "></div>
-            <div className="pl-5 pr-5 h-[40px] flex justify-between ml-3 mr-3 items-center">
+            <div className="sm:pl-10 sm:pr-10 h-[40px] flex justify-around ml-3 mr-3 items-center">
 
                 <button onClick={() => closeSidebar(true)} className="hidden sm:visible font-oswald sm:flex justify-center cursor-pointer items-center"> <IoMdMenu className="text-2xl" /> &nbsp;<span className="cursor-pointer">All</span></button>
 

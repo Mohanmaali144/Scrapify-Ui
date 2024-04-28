@@ -64,24 +64,22 @@ export default function ProductUplodedForm() {
         setErrors(errors);
         return isValid;
     };
-
     const handleSubmit = (e) => {
-
         e.preventDefault();
-
+        console.log("userid", user._id,"image array" ,images.map((image, index) =>image.name ),thumbnail.name);
         if (validateForm()) {
-            const formData = new FormData();
-            formData.append('productName', title);
-            formData.append('price', price);
-            formData.append('category', category);
-            formData.append('description', description);
-            formData.append('thumbnail', thumbnail);
-            formData.append('sellerId', user._id);
-            images.forEach((image, index) => {
-                formData.append(`images[${index}]`, image);
-            });
-            
-            axios.post("http://localhost:8000/api/product/addProduct", formData)
+
+            const payload = {
+                productName: title,
+                price: price,
+                category: category,
+                description: description,
+                thumbnail: thumbnail.name,
+                sellerId: user._id,
+                images: images.map((image) => image.name),
+            };
+
+            axios.post("http://localhost:8000/api/product/addProduct", payload)
                 .then(response => {
                     console.log('Success:', response.data);
                     setTitle('');
@@ -97,6 +95,7 @@ export default function ProductUplodedForm() {
                 });
         }
     };
+
 
 
     return (

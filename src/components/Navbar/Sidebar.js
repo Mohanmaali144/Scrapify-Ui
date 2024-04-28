@@ -1,6 +1,7 @@
 import { useContext } from "react";
 import { IoCloseSharp } from "react-icons/io5";
 import { useSelector } from "react-redux";
+import { Link } from "react-router-dom";
 import { UserContext } from "../../App";
 export default function Sidebar({ closeSidebar, setSignup, setLogin, handleLogout, openSidebar }) {
     const { user, setUser } = useContext(UserContext);
@@ -13,10 +14,16 @@ export default function Sidebar({ closeSidebar, setSignup, setLogin, handleLogou
                     <IoCloseSharp onClick={() => closeSidebar(false)} className="text-white h-full text-center -mr-4 text-3xl" />
                 </div>
                 {/* login signup */}
-                <div className="h-[50px] font-oswald font-medium flex justify-center items-center flex-col bg-white">
+                <div className="h-[50px] sm:hidden font-oswald font-medium flex justify-center items-center flex-col bg-white">
                     {/* signup/signin */}
-                    <div className="">
-                        👋 Hello {user ? user.username : 'Friend'},
+                    <div className="cursor-pointer">
+                    👋 Hello {user ? (
+                                <Link to="/profile" onClick={()=>closeSidebar(false)} className=""> {user.username},</Link>
+                            ) : (
+                                <span>
+                                    Friend,
+                                </span>
+                            )}
                     </div>
                     {
                         user ? <button onClick={handleLogout} className="cursor-pointer ml-8">Log Out</button> : <div >

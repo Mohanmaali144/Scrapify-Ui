@@ -1,7 +1,6 @@
 import axios from 'axios';
 import React, { useState } from 'react';
 import Api from '../WebApi';
-
 function ScrapUploadForm() {
     const [formData, setFormData] = useState({
         title: '',
@@ -16,6 +15,7 @@ function ScrapUploadForm() {
         fullAddress: '',
         status: '',
         pincode: '',
+
         thumbnail: null,
         images: []
     });
@@ -53,14 +53,21 @@ function ScrapUploadForm() {
         formDataToSend.append('status', formData.status);
         formDataToSend.append('thumbnail', formData.thumbnail);
 
+        // formData.images.forEach((image, index) => {
+        //     formDataToSend.append(images[${index}], image);
+        // });
         formData.images.forEach((image, index) => {
-            formDataToSend.append(`images[${index}]`, image);
+            formDataToSend.append(images, image);
         });
+
+
 
         try {
             console.log(formDataToSend);
+            console.log("DATAAAAAAAAAAAAAAAAAA :  ", formDataToSend);
             const response = await axios.post(Api.AddScrapProduct, formDataToSend);
             console.log('Product added successfully:', response.data);
+            // Optionally, you can redirect to another page or show a success message
         } catch (error) {
             console.log('Error adding product:', error);
             // Handle error (e.g., show error message to the user)
@@ -68,18 +75,18 @@ function ScrapUploadForm() {
     };
 
     return (
-        <form onSubmit={handleSubmit} encType="multipart/form-data">
+        <form onSubmit={handleSubmit} enctype="multipart/form-data">
             <input type="text" name="title" placeholder="Title" onChange={handleInputChange} />
             <input type="text" name="description" placeholder="Description" onChange={handleInputChange} />
             <input type="text" name="categoryName" placeholder="Category Name" onChange={handleInputChange} />
             <input type="text" name="condition" placeholder="Condition" onChange={handleInputChange} />
             <input type="number" name="price" placeholder="Price" onChange={handleInputChange} />
             <input type="text" name="seller" placeholder="Seller" onChange={handleInputChange} />
-            <input type="text" name="city" placeholder="City" onChange={handleInputChange} />
-            <input type="text" name="state" placeholder="State" onChange={handleInputChange} />
-            <input type="text" name="landmark" placeholder="Landmark" onChange={handleInputChange} />
-            <input type="text" name="fullAddress" placeholder="Full Address" onChange={handleInputChange} />
-            <input type="text" name="pincode" placeholder="Pincode" onChange={handleInputChange} />
+            <input type="text" name="city" placeholder="city" onChange={handleInputChange} />
+            <input type="text" name="state" placeholder="state" onChange={handleInputChange} />
+            <input type="text" name="landmark" placeholder="landmark" onChange={handleInputChange} />
+            <input type="text" name="fullAddress" placeholder="fullAddress" onChange={handleInputChange} />
+            <input type="text" name="pincode" placeholder="pincode" onChange={handleInputChange} />
             <input type="text" name="status" placeholder="Status" onChange={handleInputChange} />
             <input type="file" name="thumbnail" accept="image/*" onChange={handleThumbnailChange} />
             <input type="file" name="images" accept="image/*" multiple onChange={handleImagesChange} />

@@ -17,6 +17,7 @@ import SellScrap from './components/Home/SellScrap';
 import Shop from './components/Home/Shop';
 import Navbar from './components/Navbar/Navbar';
 import Footer from './components/ui/Footer';
+import ProductPage from './components/ui/ProductPage';
 setBasePath('https://cdn.jsdelivr.net/npm/@shoelace-style/shoelace@2.15.0/cdn/');
 // Create the UserContext
 export const UserContext = createContext();
@@ -61,6 +62,7 @@ function App() {
           <Route path='/list-scrap' element={<SellScrap />} />
           <Route path='/category' element={<Category />} />
           <Route path='/ourbrand' element={<OurBrand />} />
+          <Route path='/productdetails' element={<ProductPage />} />
           <Route path='/profile' element={<MyProfile />} />
           {/* admin start */}
           <Route path='/dashboard' element={<AdminSignIn />} />
