@@ -1,201 +1,124 @@
 import axios from 'axios';
-import { Button, FileInput, Label, TextInput } from "flowbite-react";
-import { useContext, useState } from 'react';
+import { Button, FileInput, Label, TextInput } from 'flowbite-react';
+import React, { useContext, useState } from 'react';
 import { useSelector } from 'react-redux';
-import { ToastContainer, toast } from 'react-toastify';
 import { UserContext } from '../../App';
-
-export default function ProductUplodedForm() {
-    const [images, setImages] = useState([]);
-    const [thumbnail, setThumbnail] = useState(null);
-    const [title, setTitle] = useState('');
-    const [price, setPrice] = useState('');
-    const [category, setCategory] = useState('');
-    const [description, setDescription] = useState('');
-    const [errors, setErrors] = useState({});
-    const { user, setUser } = useContext(UserContext);
-    console.log(user._id);
+import Api from '../WebApi';
+function ProductUplodedForm() {
 
     const { categoryList, isLoading, error } = useSelector((store) => store.category);
+    const { user, setUser } = useContext(UserContext);
 
-    const handleFileChange = (e) => {
-        const files = e.target.files;
-        let newImages = [];
-        let newThumbnail = null;
+    const [formData, setFormData] = useState({
+        title: '',
+        description: '',
+        categoryName: '',
+        price: '',
+        seller: '',
+        thumbnail: null,
+        images: []
+    });
 
-        for (let i = 0; i < files.length; i++) {
-            if (i < 4) {
-                if (i === 0) {
-                    newThumbnail = files[i];
-                } else {
-                    newImages.push(files[i]);
-                }
-            }
-        }
-
-        setThumbnail(newThumbnail);
-        setImages(newImages);
+    const handleInputChange = (e) => {
+        const { name, value } = e.target;
+        setFormData({ ...formData, [name]: value });
     };
 
-    const validateForm = () => {
-        let errors = {};
-        let isValid = true;
-
-        if (!title.trim()) {
-            errors.title = 'Title is required';
-            isValid = false;
-        }
-
-        if (!price.trim()) {
-            errors.price = 'Price is required';
-            isValid = false;
-        }
-
-        if (!category) {
-            errors.category = 'Category is required';
-            isValid = false;
-        }
-
-        if (!description.trim()) {
-            errors.description = 'Description is required';
-            isValid = false;
-        }
-
-        setErrors(errors);
-        return isValid;
+    const handleThumbnailChange = (e) => {
+        const file = e.target.files[0];
+        setFormData({ ...formData, thumbnail: file });
     };
-    const handleSubmit = (e) => {
+
+    const handleImagesChange = (e) => {
+        const files = Array.from(e.target.files);
+        setFormData({ ...formData, images: files });
+    };
+
+    const handleSubmit = async (e) => {
         e.preventDefault();
-        console.log("userid", user._id,"image array" ,images.map((image, index) =>image.name ),thumbnail.name);
-        if (validateForm()) {
 
-            const payload = {
-                productName: title,
-                price: price,
-                category: category,
-                description: description,
-                thumbnail: thumbnail.name,
-                sellerId: user._id,
-                images: images.map((image) => image.name),
-            };
+        const formDataToSend = new FormData();
+        formDataToSend.append('productName', formData.title);
+        formDataToSend.append('description', formData.description);
+        formDataToSend.append('category', formData.category);
+        formDataToSend.append('price', formData.price);
+        formDataToSend.append('sellerId', user._id);
+        formDataToSend.append('thumbnail', formData.thumbnail);
+        formData.images.forEach((image, index) => {
+            formDataToSend.append('images', image);
+        });
 
-            axios.post("http://localhost:8000/api/product/addProduct", payload)
-                .then(response => {
-                    console.log('Success:', response.data);
-                    setTitle('');
-                    setPrice('');
-                    setCategory('');
-                    setDescription('');
-                    setImages([]);
-                    setErrors({});
-                })
-                .catch(error => {
-                    console.error('Error:', error);
-                    toast.error('Internal Server Error');
-                });
+
+
+        try {
+            console.log(formDataToSend);
+            console.log("DATAAAAAAAAAAAAAAAAAA :  ", formDataToSend);
+            const response = await axios.post(Api.AddProductByUserID, formDataToSend);
+            console.log('Product added successfully:', response.data);
+        } catch (error) {
+            console.log('Error adding product:', error);
         }
     };
-
-
 
     return (
-
         <div className="w-full h-full flex justify-center items-center border-2 border-slate-800 rounded-xl p-4">
-            <ToastContainer />
-            <div className="grid-cols-2 w-10/12 grid gap-4" >
-                <div>
-                    <div className="mb-2 block">
-                        <Label htmlFor="title" value="Product Title" />
-                    </div>
-                    <TextInput
-                        id="title"
-                        type="text"
-                        placeholder="Product Title"
-                        required
-                        shadow
-                        value={title}
-                        onChange={(e) => setTitle(e.target.value)}
-                    />
-                    {errors.title && <p className="text-red-500">{errors.title}</p>}
+            <form className='grid-cols-2 w-10/12 grid gap-4' onSubmit={handleSubmit} enctype="multipart/form-data">
+
+                <div className='col-span-2'>
+                    <div> <Label htmlFor="title" value="Title" /></div>
+                    <TextInput type="text" name="title" placeholder="Title" onChange={handleInputChange} />
                 </div>
+
                 <div className='col-span-1'>
-                    <div className="mb-2 block">
-                        <Label htmlFor="price" value="Scrap Price" />
-                    </div>
-                    <TextInput
-                        id="price"
-                        type="text"
-                        placeholder="Scrap Price"
-                        required
-                        shadow
-                        value={price}
-                        onChange={(e) => setPrice(e.target.value)}
-                    />
-                    {errors.price && <p className="text-red-500">{errors.price}</p>}
-                </div>
-                <div>
-                    <div className="mb-2 block">
-                        <Label htmlFor="category" value="Category" />
-                    </div>
-                    <select value={category} onChange={(e) => setCategory(e.target.value)}>
+                    <div> <Label htmlFor="category" value="Category" /></div>
+                    <select className="select select-bordered" name="category" onChange={handleInputChange}>
+                        <option disabled selected>Pick one</option>
                         {categoryList.map((category, index) => (
-                            <option key={index} value={category.categoryName}>{category.categoryName}</option>
+                            <option key={category._id} value={category.categoryName}>
+                                {category.categoryName}
+                            </option>
                         ))}
                     </select>
-                    {errors.category && <p className="text-red-500">{errors.category}</p>}
                 </div>
+
+
                 <div className='col-span-2'>
                     <label className="form-control">
                         <div className="label">
                             <span className="label-text">Add Scrap Description</span>
                         </div>
-                        <textarea
-                            className="textarea textarea-bordered h-24"
-                            placeholder="Add Scrap Description"
-                            value={description}
-                            onChange={(e) => setDescription(e.target.value)}
-                        ></textarea>
+                        <textarea className="textarea textarea-bordered h-24"
+                            placeholder="Add Scrap Description" type="text" name="description" onChange={handleInputChange}>
+                        </textarea>
                     </label>
-                    {errors.description && <p className="text-red-500">{errors.description}</p>}
                 </div>
-                <div className='col-span-1'>
-                    <div className="mb-2 mt-1">
-                        <div>
-                            <Label htmlFor="small-file-upload" value="Upload Thumbnail" />
+                <div className='cols-span-2'>
+                    <div> <Label htmlFor="price" value="Price" /></div>
+                    <TextInput type="number" name="price" placeholder="Price" onChange={handleInputChange} />
+                </div>
+
+                <div className='col-span-2'>
+                    <div>
+                        <div className="mb-2 block">
+                            <Label htmlFor="file-upload" value="Upload File" />
                         </div>
-                        <FileInput id="small-file-upload" sizing="sm" />
+                        <FileInput type="file" name="thumbnail" accept="image/*" onChange={handleThumbnailChange} id="file-upload" />
                     </div>
+                    <input />
+                </div>
+
+                <div className='col-span-2'>
+                    <div className="mb-2 block">
+                        <Label htmlFor="file-upload" value="Upload Images" />
+                    </div>
+                    <FileInput type="file" name="images" accept="image/*" multiple onChange={handleImagesChange} />
                 </div>
                 <div className='col-span-2'>
-                    <div className='bg-[#374151] p-2 w-1/2 text-white text-sm rounded-lg '>
-                        <label htmlFor="image-upload" className="cursor-pointer inline-block ">
-                            <span className="ml-2 mr-2">+</span> Upload Image
-                        </label>
-                        <input
-                            id="image-upload"
-                            type="file"
-                            accept="image/*"
-                            multiple
-                            onChange={handleFileChange}
-                            className="hidden"
-                        />
-                    </div>
-                    <div className='rounded-xl shadow-xl bg-white mt-2 p- w-auto'>
-                        {images.length > 0 && (
-                            <div>
-                                <p>Selected Images:</p>
-                                <ul>
-                                    {images.map((image, index) => (
-                                        <li key={index}>{image.name}</li>
-                                    ))}
-                                </ul>
-                            </div>
-                        )}
-                    </div>
+                    <Button className='b' type="submit">Add Product</Button>
                 </div>
-                <Button className='col-span-2 bg-[#374151]' onClick={handleSubmit}>Upload</Button>
-
-            </div>
-        </div>
+            </form >
+        </div >
     );
 }
+
+export default ProductUplodedForm;

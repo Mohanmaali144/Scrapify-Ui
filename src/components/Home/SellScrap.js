@@ -1,5 +1,5 @@
 import { useState } from "react";
-import ScrapUploadForm from "../ui/ScrapUploadForm";
+import ProductUplodedForm from "../ui/ProductUplodedForm";
 import UserCreativeProductList from "../ui/UserCreativeProductList";
 
 export default function SellScrap() {
@@ -31,10 +31,8 @@ export default function SellScrap() {
                 </svg>
             </button>
 
-            <div className="float-left w-10/12 h-auto  ">
-                <h3 className="text-center font-oswald font-semibold text-2xl mb-2">Your Scrap</h3>
-                {Upload ? <ScrapUploadForm /> : <UserCreativeProductList />}
-
+            <div className="float-left w-full h-auto  ">
+                {Upload ? <ProductUplodedForm /> : <UserCreativeProductList />}
             </div>
         </div>
     );

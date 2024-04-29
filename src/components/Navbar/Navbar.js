@@ -61,7 +61,7 @@ export default function Navbar() {
                 <div className="sm:w-1/4 1/2  font-oswald h-[60px] flex justify-around items-center ">
                     <div className="hidden md:block">
                         {/* signup/signin */}
-                        <div className="">
+                        <div className="uppercase">
                             👋 Hello {user ? (
                                 <Link to="/profile" className=""> {user.username},</Link>
                             ) : (

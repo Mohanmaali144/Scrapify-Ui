@@ -21,7 +21,6 @@ import ProductPage from './components/ui/ProductPage';
 setBasePath('https://cdn.jsdelivr.net/npm/@shoelace-style/shoelace@2.15.0/cdn/');
 // Create the UserContext
 export const UserContext = createContext();
-
 function App() {
   const [user, setUser] = useState(null);
   const location = useLocation();
@@ -30,7 +29,7 @@ function App() {
     location.pathname.startsWith('/admin') ||
     location.pathname.startsWith('/signUp');
 
-  // You may need to declare these states if they are used in your Navbar and Footer components
+    
   const [hideNavbar, setHideNavbar] = useState(false);
   const [hideFooter, setHideFooter] = useState(false);
 
@@ -42,8 +41,8 @@ function App() {
     setHideFooter(isDashboardRoute || isAdminRoute || isAdminSign);
 
     return () => {
-      setHideNavbar(false); 
-      setHideFooter(false); 
+      setHideNavbar(false);
+      setHideFooter(false);
     };
   }, [location]);
 
@@ -56,20 +55,21 @@ function App() {
         {!shouldHideNavbarFooter && <Navbar />}
         <ToastContainer />
         <Routes>
-          <Route path='/' element={<Home />} />
+
           <Route path='/shop' element={<Shop />} />
           <Route path='/sellproduct' element={<SellProducts />} />
           <Route path='/list-scrap' element={<SellScrap />} />
           <Route path='/category' element={<Category />} />
           <Route path='/ourbrand' element={<OurBrand />} />
           <Route path='/productdetails' element={<ProductPage />} />
-          <Route path='/profile' element={<MyProfile />} />
           {/* admin start */}
           <Route path='/dashboard' element={<AdminSignIn />} />
           <Route path='/signUp' element={<AdminSignUp />} />
           <Route path='/adminHome' element={<Menu />} />
           {/* admin end */}
           <Route path='*' element={<PageNotFound />} />
+          <Route path='/' element={<Home />} />
+          <Route path="/profile" element={<MyProfile />} />
         </Routes>
         {!shouldHideNavbarFooter && <Footer />}
       </>

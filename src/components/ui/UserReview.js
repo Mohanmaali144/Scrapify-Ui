@@ -1,9 +1,8 @@
-import React, { useState } from 'react';
-import "../ui/css/ProductPage.css"
 import SlRating from '@shoelace-style/shoelace/dist/react/rating';
+import React from 'react';
+import "../ui/css/ProductPage.css";
 
 const UserReview = () => {
-
 
     return (
         <> 

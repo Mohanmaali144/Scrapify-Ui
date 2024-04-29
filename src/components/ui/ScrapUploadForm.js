@@ -1,8 +1,29 @@
 import axios from 'axios';
-import React, { useState } from 'react';
+import { City, Country, State } from 'country-state-city';
+import { Button, FileInput, Label, TextInput } from 'flowbite-react';
+import React, { useContext, useEffect, useState } from 'react';
+import { useSelector } from 'react-redux';
+import { UserContext } from '../../App';
 import Api from '../WebApi';
-
 function ScrapUploadForm() {
+
+    const { scrapcategoryList, isLoading, error } = useSelector((store) => store.scrapcategory);
+    const CountryName = Country.getCountryByCode("IN")
+    const { user, setUser } = useContext(UserContext);
+    const StateName = State.getStatesOfCountry('IN')
+    const [stateCode, setStateCode] = useState('MP');
+    const [cityName, setCityName] = useState([]);
+
+    useEffect(() => {
+        const fetchCities = async () => {
+            const cities = await City.getCitiesOfState("IN", stateCode);
+            setCityName(cities);
+        };
+        fetchCities();
+    }, [stateCode]);
+
+
+
     const [formData, setFormData] = useState({
         title: '',
         description: '',
@@ -16,6 +37,7 @@ function ScrapUploadForm() {
         fullAddress: '',
         status: '',
         pincode: '',
+
         thumbnail: null,
         images: []
     });
@@ -44,47 +66,135 @@ function ScrapUploadForm() {
         formDataToSend.append('categoryName', formData.categoryName);
         formDataToSend.append('condition', formData.condition);
         formDataToSend.append('price', formData.price);
-        formDataToSend.append('seller', formData.seller);
+        formDataToSend.append('seller', user._id);
         formDataToSend.append('city', formData.city);
         formDataToSend.append('landmark', formData.landmark);
-        formDataToSend.append('state', formData.state);
+        formDataToSend.append('state', stateCode);
         formDataToSend.append('fullAddress', formData.fullAddress);
         formDataToSend.append('pincode', formData.pincode);
-        formDataToSend.append('status', formData.status);
         formDataToSend.append('thumbnail', formData.thumbnail);
 
         formData.images.forEach((image, index) => {
-            formDataToSend.append(`images[${index}]`, image);
+            formDataToSend.append('images', image);
         });
 
+
+
         try {
-            console.log(formDataToSend);
+            console.log("Scrap Product Info : ", formDataToSend);
             const response = await axios.post(Api.AddScrapProduct, formDataToSend);
             console.log('Product added successfully:', response.data);
         } catch (error) {
             console.log('Error adding product:', error);
-            // Handle error (e.g., show error message to the user)
         }
     };
 
     return (
-        <form onSubmit={handleSubmit} encType="multipart/form-data">
-            <input type="text" name="title" placeholder="Title" onChange={handleInputChange} />
-            <input type="text" name="description" placeholder="Description" onChange={handleInputChange} />
-            <input type="text" name="categoryName" placeholder="Category Name" onChange={handleInputChange} />
-            <input type="text" name="condition" placeholder="Condition" onChange={handleInputChange} />
-            <input type="number" name="price" placeholder="Price" onChange={handleInputChange} />
-            <input type="text" name="seller" placeholder="Seller" onChange={handleInputChange} />
-            <input type="text" name="city" placeholder="City" onChange={handleInputChange} />
-            <input type="text" name="state" placeholder="State" onChange={handleInputChange} />
-            <input type="text" name="landmark" placeholder="Landmark" onChange={handleInputChange} />
-            <input type="text" name="fullAddress" placeholder="Full Address" onChange={handleInputChange} />
-            <input type="text" name="pincode" placeholder="Pincode" onChange={handleInputChange} />
-            <input type="text" name="status" placeholder="Status" onChange={handleInputChange} />
-            <input type="file" name="thumbnail" accept="image/*" onChange={handleThumbnailChange} />
-            <input type="file" name="images" accept="image/*" multiple onChange={handleImagesChange} />
-            <button type="submit">Add Product</button>
-        </form>
+        <div className="w-full h-full flex justify-center items-center border-2 border-slate-800 rounded-xl p-4">
+            <form className='grid-cols-2 w-10/12 grid gap-4' onSubmit={handleSubmit} enctype="multipart/form-data">
+
+                <div className='col-span-2'>
+                    <div> <Label htmlFor="title" value="Title" /></div>
+                    <TextInput type="text" name="title" placeholder="Title" onChange={handleInputChange} />
+                </div>
+
+                <div className='col-span-1'>
+                    <div> <Label htmlFor="category" value="Category" /></div>
+                    <select className="select select-bordered" name="categoryName" onChange={handleInputChange}>
+                        <option disabled selected>Pick one</option>
+                        {scrapcategoryList.map((category, index) => (
+                            <option key={category._id} value={category.categoryName}>
+                                {category.categoryName}
+                            </option>
+                        ))}
+                    </select>
+                </div>
+
+                <div className='col-span-1'>
+                    <div>
+                        <Label htmlFor="condition" value="Conditon" />
+                    </div>
+                    <select className="select select-bordered" name="condition" onChange={handleInputChange}>
+                        <option disabled selected  >Pick Up One</option>
+                        <option  value={'good'}>Good</option>
+                        <option value={'medium'}>Medium</option>
+                        <option value={'worst'}>Worst</option>
+                    </select>
+                </div>
+
+                <div className='col-span-2'>
+                    <label className="form-control">
+                        <div className="label">
+                            <span className="label-text">Add Scrap Description</span>
+                        </div>
+                        <textarea className="textarea textarea-bordered h-24"
+                            placeholder="Add Scrap Description" type="text" name="description" onChange={handleInputChange}>
+                        </textarea>
+                    </label>
+                </div>
+                <div className='cols-span-2'>
+                    <div> <Label htmlFor="price" value="Price" /></div>
+                    <TextInput type="number" name="price" placeholder="Price" onChange={handleInputChange} />
+                </div>
+
+                <div className='col-span-1'>
+                    <div> <Label htmlFor="state" value="State" /></div>
+                    <select className="select select-bordered" onChange={(e) => setStateCode(e.target.value)}>
+                        {StateName.map((state, index) => (
+                            <option key={state.isoCode} value={state.isoCode}>
+                                {state.name}
+                            </option>
+                        ))}
+                    </select>
+
+                </div>
+                <div className='col-span-1'>
+                    <div>
+                        <Label htmlFor="state" value="city" />
+                    </div>
+                    <select className="select select-bordered" name="city" onChange={handleInputChange}>
+                        {cityName.map((city, index) => (
+                            <option key={city.isoCode} value={city.name}>{city.name}</option>
+                        ))}
+                    </select>
+                </div>
+
+                <div className='col-span-1'>
+                    <div> <Label htmlFor="landmark" value="landmark" /></div>
+                    <TextInput name='landmark' placeholder='landmark' onChange={handleInputChange} />
+                </div>
+
+                <div className='col-span-1'>
+                    <div> <Label htmlFor="landmark" value="fullAddress" /></div>
+                    <TextInput type="text" name="fullAddress" placeholder="fullAddress" onChange={handleInputChange} />
+                </div>
+
+                <div className='col-span-1'>
+                    <div> <Label htmlFor="pincode" value="pincode" /></div>
+                    <TextInput type="text" name="pincode" placeholder="pincode" onChange={handleInputChange} />
+                </div>
+
+                <div className='col-span-2'>
+                    <div>
+                        <div className="mb-2 block">
+                            <Label htmlFor="file-upload" value="Upload File" />
+                        </div>
+                        <FileInput type="file" name="thumbnail" accept="image/*" onChange={handleThumbnailChange} id="file-upload" />
+                    </div>
+                    <input />
+                </div>
+
+                <div className='col-span-2'>
+                    <div className="mb-2 block">
+                        <Label htmlFor="file-upload" value="Upload Images" />
+                    </div>
+                    <FileInput type="file" name="images" accept="image/*" multiple onChange={handleImagesChange} />
+                </div>
+                <div className='col-span-2'>
+                    <Button className='b' type="submit">Add Product</Button>
+                </div>
+            </form >
+        </div >
     );
 }
 

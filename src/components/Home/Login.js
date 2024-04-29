@@ -1,7 +1,9 @@
+import SlSpinner from '@shoelace-style/shoelace/dist/react/spinner';
 import axios from "axios";
 import { Button, Label, TextInput } from "flowbite-react";
 import { useContext, useState } from "react";
 import { IoClose } from "react-icons/io5";
+import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
@@ -12,16 +14,17 @@ export default function Login({ setSignup, setLogin }) {
 
 
     const { user, setUser } = useContext(UserContext);
+    const [loading, setLoading] = useState(false);
     const navigate = useNavigate();
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
+    const dispatch = useDispatch();
     const [errors, setErrors] = useState({ email: "", password: "", message: "" });
-    console.log("hello 123");
     const handleLogin = async (e) => {
-
         try {
             e.preventDefault();
             if (validate()) {
+                setLoading(true);
                 const response = await axios.post(Api.LoginApi, { email, password });
                 saveUser(response.data.user, response.data.token);
                 console.log(response.data);
@@ -29,6 +32,7 @@ export default function Login({ setSignup, setLogin }) {
                 setPassword("");
                 setLogin(false);
                 console.log("Login success");
+                setLogin(false);
                 toast.success("login success");
                 setUser(response.data.user);
                 setLogin(false)
@@ -38,6 +42,7 @@ export default function Login({ setSignup, setLogin }) {
 
             if (error.message === "Network Error") {
                 toast.error("Network Error !")
+                setLoading(false)
             } else if (error.response.status == 400 && error.response.data.message == "invalid email") {
                 setErrors((prevErrors) => ({
                     ...prevErrors,
@@ -52,6 +57,8 @@ export default function Login({ setSignup, setLogin }) {
             } else {
                 toast.error("Internal server error");
             }
+        } finally {
+            setLoading(false); // Reset loading state after login attempt
         }
 
     };
@@ -134,8 +141,9 @@ export default function Login({ setSignup, setLogin }) {
                             <Button
                                 className="w-full mt-4 text-xl font-bold font-oswald bg-slate-800 hover:opacity-70"
                                 type="submit"
+                                disabled={loading}
                             >
-                                Login
+                                {loading ? <SlSpinner /> : 'Login'}
                             </Button>
                             {errors.message && <small className="text-red-600 font-bold">{errors.message}</small>}
                         </form>

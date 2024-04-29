@@ -7,6 +7,9 @@ export const Store = configureStore({
     reducer: {
         product: ProductSlice,
         category: CategorySlice,
-        scrapcategory: ScrapCategorySlice
+        scrapcategory: ScrapCategorySlice,
+        // userproduct: UserProductSlice,
+        // userscrap: UserScrapSlice,
+
     }
 })

@@ -1,49 +1,41 @@
-import { useState } from "react";
+import SlTab from '@shoelace-style/shoelace/dist/react/tab';
+import SlTabGroup from '@shoelace-style/shoelace/dist/react/tab-group';
+import SlTabPanel from '@shoelace-style/shoelace/dist/react/tab-panel';
 import SellProducts from "./SellProducts";
 import SellScrap from "./SellScrap";
 import UserProfile from "./UserProfile";
 
 export default function MyProfile() {
-    const [scrapList, setScrapList] = useState([]);
-    const [productList, setProductList] = useState([]);
-    const [activeTab, setActiveTab] = useState("profile");
-
-    const handleTabClick = (tab) => {
-        setActiveTab(tab);
-    };
-
     return (
         <>
-            <div className="flex justify-center items-start">
-                <div className="w-3/12 mt-1 h-auto bg-slate-50 text-black font-oswald font-medium flex justify-start">
-                    <ul className="w-full">
-                        <h3 className="p-2 bg-[#272727] text-white w-full h-auto text-center">Dashboard</h3>
-                        <li
-                            className={`p-2 text-center hover:bg-slate-300 transition ease-in-out delay-90 ${activeTab === "profile" ? "bg-slate-300" : "bg-slate-50"}`}
-                            onClick={() => handleTabClick("profile")}
-                        >
-                            MyProfile
-                        </li>
-                        <li
-                            className={`p-2 text-center hover:bg-slate-300 transition ease-in-out delay-90 ${activeTab === "scrap" ? "bg-slate-300" : "bg-slate-50"}`}
-                            onClick={() => handleTabClick("scrap")}
-                        >
-                            Your Scrap
-                        </li>
-                        <li
-                            className={`p-2 text-center hover:bg-slate-300 transition ease-in-out delay-90 ${activeTab === "products" ? "bg-slate-300" : "bg-slate-50"}`}
-                            onClick={() => handleTabClick("products")}
-                        >
-                            Your Product
-                        </li>
-                    </ul>
-                </div>
-                {/* your scrap */}
-                <div className="p-2 w-9/12">
-                    {activeTab === "profile" && <UserProfile />}
-                    {activeTab === "products" && <SellProducts />}
-                    {activeTab === "scrap" && <SellScrap />}
-                </div>
+            <div className='p-4'>
+                <SlTabGroup>
+                    <SlTab slot="nav" panel="profile">
+                        <div className="indicator">
+                            <button className="btn">My Profile</button>
+                        </div>
+                    </SlTab>
+                    <SlTab slot="nav" panel="products">
+                        <div className="indicator">
+                            <button className="btn">My Products</button>
+                        </div>
+                    </SlTab>
+                    <SlTab slot="nav" panel="scrap">
+                        <div className="indicator">
+                            <button className="btn">My Scrap</button>
+                        </div>
+                    </SlTab>
+                    <SlTab slot="nav" panel="message">
+                        <div className="indicator">
+                            <span className="indicator-item badge badge-secondary">99+</span>
+                            <button className="btn">Message</button>
+                        </div>
+                    </SlTab>
+                    <SlTabPanel name="profile"><UserProfile /></SlTabPanel>
+                    <SlTabPanel name="products"><SellScrap /></SlTabPanel>
+                    <SlTabPanel name="scrap"><SellProducts /></SlTabPanel>
+                    <SlTabPanel name="message"><SellProducts /></SlTabPanel>
+                </SlTabGroup>
             </div>
         </>
     );

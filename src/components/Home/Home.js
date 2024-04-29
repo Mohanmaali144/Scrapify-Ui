@@ -1,7 +1,8 @@
 
 "use client";
-import { useEffect } from "react";
+import { useContext, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
+import { UserContext } from "../../App";
 import { getCategory } from "../../redux-config/CategorySlice";
 import { getProduct } from "../../redux-config/ProductSlice";
 import { getScrapCategorySlice } from "../../redux-config/ScrapCategory";
@@ -13,12 +14,13 @@ import ProductCard from "../ui/ProductCard";
 
 
 export default function Home() {
+    const { user, setUser } = useContext(UserContext);
     const { categoryList, isLoading, error } = useSelector((store) => store.category);
     const dispatch = useDispatch();
     useEffect(() => {
         dispatch(getProduct());
-        dispatch(getCategory())
-        dispatch(getScrapCategorySlice())
+        dispatch(getCategory());
+        dispatch(getScrapCategorySlice());
     }, []);
     return (
         <>

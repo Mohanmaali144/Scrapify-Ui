@@ -1,3 +1,4 @@
+
 const Api = {
 
     // user auth api 
@@ -22,13 +23,17 @@ const Api = {
     AddScrapCategory: 'http://localhost:8000/api/scrapCategory/add-category',
     GetScrapCategory: 'http://localhost:8000/api/scrapCategory/getcategoryList',
     // get prpoduct By user id 
-    GetPRoductByUserID: `http://localhost:8000/api/product/fetchProductByUserId/:userId`,
+    GetPRoductByUserID: `http://localhost:8000/api/product/fetchProductByUserId`,
     // get scrap by user Id
-    AddScrapProduct:`http://localhost:8000/api/scrapProduct/addProduct `,
-    GetScrapByUserID: 'http://localhost:8000/api/scrapProduct/getProduct-byuserid/:userId',
+    AddScrapProduct: `http://localhost:8000/api/scrapProduct/addProduct `,
+    GetScrapByUserID: 'http://localhost:8000/api/scrapProduct/getProduct-byuserid',
     // Admin 
     AdminSignUpApi: "http://localhost:8000/api/admin/register",
     AdminSignInApi: "http://localhost:3000/api/admin/signIn",
+    // Add Prdoduct
+    AddProductByUserID: `http://localhost:8000/api/product/addProduct`,
+    DeleteProductById:`http://localhost:8000/api/product/removeProductById`,
+    DeleteScrapProductById:`http://localhost:8000/api/scrapProduct/deleteproduct-byid`
 }
 
 export default Api;

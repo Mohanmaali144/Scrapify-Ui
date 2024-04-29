@@ -1,5 +1,5 @@
 import { useState } from "react";
-import ProductUplodedForm from "../ui/ProductUplodedForm";
+import ScrapUploadForm from "../ui/ScrapUploadForm";
 import UserScrapList from "../ui/UserScrapList";
 
 export default function SellProducts() {
@@ -10,7 +10,7 @@ export default function SellProducts() {
     }
 
     return (
-        <div className="sm:w-full  ">
+        <div className="sm:w-full">
             <button onClick={HandleshowForme}
                 title="Add New"
                 className="group w-[55px]  cursor-pointer outline-none float-right mr-10 mt-2 hover:rotate-90 duration-300"
@@ -31,10 +31,8 @@ export default function SellProducts() {
                 </svg>
             </button>
 
-            <div className="float-left w-10/12 h-auto  ">
-                <h3 className="text-center font-oswald font-semibold text-2xl mb-2">Your Creatives</h3>
-                {Upload ? <ProductUplodedForm /> : <UserScrapList />}
-
+            <div className="float-left w-full h-auto  ">
+                {Upload ? <ScrapUploadForm /> : <UserScrapList />}
             </div>
         </div>
     );
