@@ -17,6 +17,10 @@ const slice = createSlice({
         isLoading: false,
         error: false
     },
+    reducers: {
+        removeProductById: () => {
+        }
+    },
     extraReducers: (builder) => {
         builder.addCase(getProduct.pending, (state, action) => {
             state.isLoading = true;

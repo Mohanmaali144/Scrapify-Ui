@@ -1,7 +1,7 @@
+import GoogleMapReact from 'google-map-react';
+import React from 'react';
 import image from "../ui/img/about1.jpg";
 import gif from "../ui/img/about2.gif";
-import React from 'react';
-import GoogleMapReact from 'google-map-react';
 
 function MapComponent(props) {
     return (
@@ -42,7 +42,7 @@ function About() {
             <div className="bg-[#DEDED2] flex-grow">
                 <h1 className="font-oswald sm:text-4xl font-bold text-center pt-5">Office Locations & Contact Info</h1>
                 <div className="flex justify-center items-center flex-col sm:flex-row text-center mt-10">
-                    <div className="mb-10 sm:mb-0 sm:mr-5 w-full mb-3 sm:w-1/2 flex justify-center items-center flex-col">
+                    <div className="mb-10 sm:mb-0 sm:mr-5 w-full  sm:w-1/2 flex justify-center items-center flex-col">
                         <p className="font-oswald sm:text-2xl font-medium">
                             Indore, India (HQ)<br />
                             Pune, India<br />

@@ -1,6 +1,7 @@
 import SlRating from '@shoelace-style/shoelace/dist/react/rating';
 import React, { useState } from 'react';
 import { useLocation } from 'react-router-dom';
+import AddToCart from './AddToCart.js';
 import ImageMagnifier from './ImageMagnifier.tsx';
 import QuantityButton from './QuantityButton';
 import UserReview from './UserReview';
@@ -56,7 +57,8 @@ const ProductPage = () => {
                             </div>
                             <div className='flex'>
                                 <QuantityButton />
-                                <button className="ml-5 flex-none text-white bg-slate-800 rounded-md md:px-3 md:py-2 px-2 font-medium py-1 hover:bg-[#CFDDF7] hover:text-black hover:opacity-70">Add to cart</button>
+                                <AddToCart margin={"ml-10"} />
+
                             </div>
                         </div>
                     </div>

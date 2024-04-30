@@ -16,8 +16,11 @@ import SellProducts from './components/Home/SellProducts';
 import SellScrap from './components/Home/SellScrap';
 import Shop from './components/Home/Shop';
 import Navbar from './components/Navbar/Navbar';
+import ProductShoppingPage from './components/ShopingCart';
+import AddressPage from './components/ui/AddressPage';
 import Footer from './components/ui/Footer';
 import ProductPage from './components/ui/ProductPage';
+import UpdateAddress from './components/ui/UpdateAddress';
 import UserProductDetails from './components/ui/UserProductDetails';
 import UserScrapDetails from './components/ui/UserScrapDetails';
 setBasePath('https://cdn.jsdelivr.net/npm/@shoelace-style/shoelace@2.15.0/cdn/');
@@ -66,6 +69,10 @@ function App() {
           <Route path='/productdetails' element={<ProductPage />} />
           <Route path='/userproductdetails' element={<UserProductDetails />} />
           <Route path='/userscrapdetails' element={<UserScrapDetails />} />
+          <Route path='/shopingcart' element={<ProductShoppingPage />} />
+          <Route path='/shippingaddress' element={<AddressPage />} />
+          <Route path='/updateshippingaddress' element={<UpdateAddress />} />
+          <Route path="/profile" element={<MyProfile />} />
           {/* admin start */}
           <Route path='/dashboard' element={<AdminSignIn />} />
           <Route path='/AdminSignUp' element={<AdminSignUp />} />
@@ -73,7 +80,6 @@ function App() {
           {/* admin end */}
           <Route path='*' element={<PageNotFound />} />
           <Route path='/' element={<Home />} />
-          <Route path="/profile" element={<MyProfile />} />
         </Routes>
         {!shouldHideNavbarFooter && <Footer />}
       </>

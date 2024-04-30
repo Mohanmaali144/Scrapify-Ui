@@ -40,7 +40,15 @@ const Api = {
     unBlockUser: 'http://localhost:8000/api/user/unblockuser-byid',
     GetScrapList: 'http://localhost:8000/api/scrapProduct/getProductList',
     deleteScrapItem: 'http://localhost:8000/api/scrapProduct/deleteproduct-byid',
-    deleteProductItem: 'http://localhost:8000/api/product/removeProductById'
+    deleteProductItem: 'http://localhost:8000/api/product/removeProductById',
+    // add to cart
+    AddToCart: "http://localhost:8000/api/cart/addToCart",
+    GetCartItems: "http://localhost:8000/api/cart/fetchCart",
+    RemoveProductItem: "http://localhost:8000/api/cart/removeCartItems",
+    // Address 
+    AddAddress: "http://localhost:8000/api/address/addAddress",
+    GetAddress: "http://localhost:8000/api/address/getAddress",
+    UpdateAddress: "http://localhost:8000/api/address/updateAddress",
 
 }
 

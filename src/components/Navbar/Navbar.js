@@ -7,7 +7,6 @@ import { Link, NavLink, useNavigate } from "react-router-dom";
 import Login from "../Home/Login";
 import Signup from "../Home/Signup";
 import SearchProductMobile from "../ui/SearchProductMobile";
-import CartSidebar from "./CartSidebar";
 import Sidebar from "./Sidebar";
 
 import { UserContext } from "../../App";
@@ -16,7 +15,6 @@ export default function Navbar() {
 
     const { user, setUser } = useContext(UserContext);
     const [openSidebar, closeSidebar] = useState(false);
-    const [showCart, closeCartbar] = useState(false);
     const [seachOnMobile, setSeachOnMobile] = useState(false);
     const [signup, setSignup] = useState(false)
     const [login, setLogin] = useState(false)
@@ -45,8 +43,10 @@ export default function Navbar() {
     const handleNotfication = () => {
         navigate('/profile', { state: true });
     }
-    
 
+    const handleCart = () => {
+        navigate('/shopingcart')
+    }
 
     return <>
         <div className="relative h-[100px]">
@@ -97,7 +97,7 @@ export default function Navbar() {
                             <p className="h-[18px] hidden sm:block text-center absolute top-2  w-[18px] bg-black text-[12px] rounded-full text-white">1</p>
                         </div>
                         <div>
-                            <RiShoppingCartLine onClick={() => closeCartbar(true)} className="text-3xl mr-4 sm:m-2  cursor-pointer" />
+                            <RiShoppingCartLine onClick={handleCart} className="text-3xl mr-4 sm:m-2  cursor-pointer" />
                             <p className="h-[18px] text-center absolute top-2 sm:right-11 md:right-5 w-[18px] bg-black text-[12px] rounded-full text-white">2</p>
 
                         </div>
@@ -127,7 +127,6 @@ export default function Navbar() {
             <div className="h-[1px] opacity-40 ml-2 mr-2 bg-black"></div>
 
             {openSidebar ? <Sidebar handleLogout={handleLogout} setLogin={setLogin} setSignup={setSignup} closeSidebar={closeSidebar} openSidebar={openSidebar} /> : ''}
-            {showCart ? <CartSidebar closeCartbar={closeCartbar} /> : ''}
             {seachOnMobile ? <SearchProductMobile setSeachOnMobile={setSeachOnMobile} /> : ''}
         </div>
         {/*Sigup login modal */}
