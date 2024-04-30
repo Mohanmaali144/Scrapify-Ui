@@ -41,13 +41,13 @@ export default function MyProfile() {
                     </SlTab>
                     <SlTab slot="nav" panel="message">
                         <div className="indicator">
-                            <span className="indicator-item badge badge-secondary">99+</span>
+                            <span className="indicator-item badge text-white bg-black">99+</span>
                             <button className="btn">Message</button>
                         </div>
                     </SlTab>
                     <SlTab slot="nav" panel="notification" active={state}>
                         <div className="indicator">
-                            <span className="indicator-item badge badge-secondary">9+</span>
+                            <span className="indicator-item badge text-white bg-black">9+</span>
                             <button className="btn">Notifications</button>
                         </div>
                     </SlTab>

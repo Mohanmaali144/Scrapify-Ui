@@ -28,7 +28,7 @@ const ProductPage = () => {
                 <div className=" lg:w-4/5 lg:h-3/4	 image-container  bg-white shadow-lg rounded-lg overflow-hidden ">
                     <div className="grid grid-cols-1 sm:grid-cols-2  mt-2  ">
                         <div className=" lg:pt-8 lg:pr-6 p-4 rounded lg:mr-20">
-                            <ImageMagnifier src={image} width={'auto'} height={'auto'} />
+                            <ImageMagnifier src={image} width={'280px'} height={'340px'} />
                             <div className='p-0'>
                                 <div className=" grid grid-cols-4 gap-4 p-4  border-gray-200 ">
                                     {state.images.map((image, index) => (

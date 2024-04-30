@@ -74,13 +74,14 @@ const ProductShoppingPage = () => {
                         <div style={{ width: "auto", height: "200px", border: "1px", solid: "#ccc", overflow: "auto", padding: "5px" }}>
                             {cart.cartItems.length > 0 ? cart.cartItems.map((product, index) => (
                                 <div className="flex flex-col rounded-lg bg-white sm:flex-row" key={index}>
-                                    <img className="m-2 h-36 w-42 rounded-md border object-cover object-center" src={`http://localhost:8000/images/${product.productId.thumbnail}`} alt="" />
+                                    <img className="m-2 h-24 w-24 rounded-md border object-cover object-center" src={`http://localhost:8000/images/${product.productId.thumbnail}`} alt="" />
                                     <div className="flex w-full flex-col px-4 py-4">
                                         <span className="font-semibold">{product.productId.productName}</span>
                                         <p className="text-lg font-bold flex justify-start items-center"><MdCurrencyRupee />{product.productId.price}/- only</p>
                                         <p className="text-lg font-bold">Quntity : {product.quantity}</p>
                                         <button className="mt-2 ml-auto px-2 py-2 text-xl bg-red-500 text-white rounded-lg hover:bg-red-600" onClick={() => handleRemoveFromCart(product.productId._id)}><RiDeleteBin7Fill /></button>
                                     </div>
+                                    <hr/>
                                 </div>
 
                             )) : "No Added Any Product"}
@@ -104,7 +105,7 @@ const ProductShoppingPage = () => {
                             <hr />
                             <div className="mt-6 flex items-center justify-between">
                                 <p className="text-lg font-medium text-gray-900">Total Amount</p>
-                                <p className="text-2xl font-semibold text-gray-900 flex justify-center items-center"><MdCurrencyRupee />{(productPrice +40).toFixed(2)}</p>
+                                <p className="text-2xl font-semibold text-gray-900 flex justify-center items-center"><MdCurrencyRupee />{(productPrice).toFixed(2)}</p>
                             </div>
                         </div>
                     </div>
