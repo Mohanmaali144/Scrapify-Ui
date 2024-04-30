@@ -2,10 +2,6 @@ export default function OrderDetails() {
   return <>
     <div className="mx-auto max-w-screen-lg px-4 py-8 sm:px-8 lg:max-w-full">
       <div className="flex  justify-between pb-6">
-        <div>
-          <h1 className="font-bold text-gray-700">Order Details</h1>
-        </div>
-
       </div>
       <div className="overflow-y-hidden rounded-lg  border">
         <div className="overflow-x-auto max-w-screen-xl mx-auto">

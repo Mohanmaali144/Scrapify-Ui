@@ -18,6 +18,8 @@ import Shop from './components/Home/Shop';
 import Navbar from './components/Navbar/Navbar';
 import Footer from './components/ui/Footer';
 import ProductPage from './components/ui/ProductPage';
+import UserProductDetails from './components/ui/UserProductDetails';
+import UserScrapDetails from './components/ui/UserScrapDetails';
 setBasePath('https://cdn.jsdelivr.net/npm/@shoelace-style/shoelace@2.15.0/cdn/');
 // Create the UserContext
 export const UserContext = createContext();
@@ -27,7 +29,7 @@ function App() {
   const shouldHideNavbarFooter =
     location.pathname.startsWith('/dashboard') ||
     location.pathname.startsWith('/admin') ||
-    location.pathname.startsWith('/signUp');
+    location.pathname.startsWith('/AdminSignUp');
 
     
   const [hideNavbar, setHideNavbar] = useState(false);
@@ -36,7 +38,7 @@ function App() {
   useEffect(() => {
     const isDashboardRoute = location.pathname.startsWith('/dashboard');
     const isAdminRoute = location.pathname.startsWith('/admin');
-    const isAdminSign = location.pathname.startsWith('/signUp');
+    const isAdminSign = location.pathname.startsWith('/AdminSignUp');
     setHideNavbar(isDashboardRoute || isAdminRoute || isAdminSign);
     setHideFooter(isDashboardRoute || isAdminRoute || isAdminSign);
 
@@ -62,9 +64,11 @@ function App() {
           <Route path='/category' element={<Category />} />
           <Route path='/ourbrand' element={<OurBrand />} />
           <Route path='/productdetails' element={<ProductPage />} />
+          <Route path='/userproductdetails' element={<UserProductDetails />} />
+          <Route path='/userscrapdetails' element={<UserScrapDetails />} />
           {/* admin start */}
           <Route path='/dashboard' element={<AdminSignIn />} />
-          <Route path='/signUp' element={<AdminSignUp />} />
+          <Route path='/AdminSignUp' element={<AdminSignUp />} />
           <Route path='/adminHome' element={<Menu />} />
           {/* admin end */}
           <Route path='*' element={<PageNotFound />} />

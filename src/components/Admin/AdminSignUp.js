@@ -1,25 +1,26 @@
 import axios from "axios";
 import { Button, Checkbox, Label, TextInput } from "flowbite-react";
-import { useRef, useState } from "react";
+import React, { useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import Api from "../WebApi";
 
-// Import your WebApi module
-
 export default function AdminSignUp() {
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [contact, setContact] = useState("");
   const [nameError, setNameError] = useState("");
   const [emailError, setEmailError] = useState("");
   const [passwordError, setPasswordError] = useState("");
+  const [contactError, setContactError] = useState("");
 
   const navigate = useNavigate();
   const adminnameInput = useRef();
   const emailInput = useRef();
   const passwordInput = useRef();
+  const contactInput = useRef();
 
   const validateName = (inputName) => {
     if (!inputName.trim()) {
@@ -27,7 +28,7 @@ export default function AdminSignUp() {
       return false;
     }
 
-    const namePattern = /^[a-zA-Z\s]+$/; // Only allow letters and spaces
+    const namePattern = /^[a-zA-Z\s]+$/; 
     if (!namePattern.test(inputName)) {
       setNameError("Name should contain only letters and spaces");
       return false;
@@ -56,18 +57,31 @@ export default function AdminSignUp() {
     return true;
   };
 
+  const validateContact = (inputContact) => {
+    const contactPattern = /^\d{10}$/; 
+    if (!contactPattern.test(inputContact)) {
+      setContactError("Invalid contact number (10 digits required)");
+      return false;
+    }
+    setContactError("");
+    return true;
+  };
+
   const handleSignUp = async () => {
     const isNameValid = validateName(name);
     const isEmailValid = validateEmail(email);
     const isPasswordValid = validatePassword(password);
+    const isContactValid = validateContact(contact);
 
-    if (isNameValid && isEmailValid && isPasswordValid) {
+    if (isNameValid && isEmailValid && isPasswordValid && isContactValid) {
       try {
         const response = await axios.post(Api.AdminSignUpApi, {
           adminname: name,
           email: email,
-          password: password
+          password: password,
+          contact: contact
         });
+        console.log(response);
         const admin = response.data.admin;
         sessionStorage.setItem("admin", JSON.stringify(admin));
         toast.success("Sign up success! Please sign in");
@@ -95,6 +109,12 @@ export default function AdminSignUp() {
     const inputPassword = event.target.value;
     setPassword(inputPassword);
     validatePassword(inputPassword);
+  };
+
+  const handleContactChange = (event) => {
+    const inputContact = event.target.value;
+    setContact(inputContact);
+    validateContact(inputContact);
   };
 
   return (
@@ -150,6 +170,21 @@ export default function AdminSignUp() {
               />
               {passwordError && <span style={{ color: "red" }}>{passwordError}</span>}
             </div>
+            <div className="col-span-2">
+              <div className="mb-2 block">
+                <Label htmlFor="contact" value="Contact Number" />
+              </div>
+              <TextInput
+                value={contact}
+                ref={contactInput}
+                onChange={handleContactChange}
+                id="contact"
+                type="text"
+                placeholder="Enter your contact number"
+                required
+              />
+              {contactError && <span style={{ color: "red" }}>{contactError}</span>}
+            </div>
             <div className="flex items-center gap-2">
               <Checkbox id="remember" />
               <Label htmlFor="remember">Remember me</Label>
@@ -171,6 +206,6 @@ export default function AdminSignUp() {
           </form>
         </div>
       </div>
-    </>
-  );
+    </>
+  );
 }

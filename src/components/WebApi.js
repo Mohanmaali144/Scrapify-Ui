@@ -29,11 +29,19 @@ const Api = {
     GetScrapByUserID: 'http://localhost:8000/api/scrapProduct/getProduct-byuserid',
     // Admin 
     AdminSignUpApi: "http://localhost:8000/api/admin/register",
-    AdminSignInApi: "http://localhost:3000/api/admin/signIn",
+    AdminSignInApi: "http://localhost:8000/api/admin/signIn",
     // Add Prdoduct
     AddProductByUserID: `http://localhost:8000/api/product/addProduct`,
-    DeleteProductById:`http://localhost:8000/api/product/removeProductById`,
-    DeleteScrapProductById:`http://localhost:8000/api/scrapProduct/deleteproduct-byid`
+    DeleteProductById: `http://localhost:8000/api/product/removeProductById`,
+    DeleteScrapProductById: `http://localhost:8000/api/scrapProduct/deleteproduct-byid`,
+    // profiel update
+    updateUserDetails: "http://localhost:8000/api/user/change-username",
+    blockUser: 'http://localhost:8000/api/user/blockuser-byid',
+    unBlockUser: 'http://localhost:8000/api/user/unblockuser-byid',
+    GetScrapList: 'http://localhost:8000/api/scrapProduct/getProductList',
+    deleteScrapItem: 'http://localhost:8000/api/scrapProduct/deleteproduct-byid',
+    deleteProductItem: 'http://localhost:8000/api/product/removeProductById'
+
 }
 
 export default Api;

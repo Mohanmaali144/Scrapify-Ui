@@ -20,25 +20,33 @@ export default function Navbar() {
     const [seachOnMobile, setSeachOnMobile] = useState(false);
     const [signup, setSignup] = useState(false)
     const [login, setLogin] = useState(false)
+    const [open, setOpen] = useState(false)
     const navigate = useNavigate();
 
     useEffect(() => {
         const userData = sessionStorage.getItem('current-user');
         if (userData) {
             const parsedUserData = JSON.parse(userData);
-           
+
         }
     }, [user]);
 
-
     const handleLogout = () => {
-        if (window.confirm('Are you want to sure to LogOut')) {
+        const heading = 'Log Out';
+        const content = 'Are you sure you want to log out?';
+
+        if (window.confirm('Are you want to sure')) {
             setUser(null);
             sessionStorage.removeItem('current-user');
-            navigate('/')
-        }
+            navigate('/');
+        };
+    };
 
+    const handleNotfication = () => {
+        navigate('/profile', { state: true });
     }
+    
+
 
     return <>
         <div className="relative h-[100px]">
@@ -85,7 +93,7 @@ export default function Navbar() {
                         {/* add to cart / notification */}
                         <FaSearch className="text-xl sm:text-2xl mr-5 sm:hidden cursor-pointer" onClick={() => setSeachOnMobile(true)} />
                         <div>
-                            <MdOutlineNotificationsNone className="text-3xl hidden sm:block cursor-pointer" />
+                            <MdOutlineNotificationsNone onClick={handleNotfication} className="text-3xl hidden sm:block cursor-pointer" />
                             <p className="h-[18px] hidden sm:block text-center absolute top-2  w-[18px] bg-black text-[12px] rounded-full text-white">1</p>
                         </div>
                         <div>

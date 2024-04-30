@@ -8,8 +8,5 @@ export const Store = configureStore({
         product: ProductSlice,
         category: CategorySlice,
         scrapcategory: ScrapCategorySlice,
-        // userproduct: UserProductSlice,
-        // userscrap: UserScrapSlice,
-
     }
 })

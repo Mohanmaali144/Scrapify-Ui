@@ -5,12 +5,14 @@ import SlSpinner from '@shoelace-style/shoelace/dist/react/spinner';
 import axios from 'axios';
 import { useContext, useEffect, useState } from 'react';
 import { RiDeleteBin6Line } from "react-icons/ri";
+import { useNavigate } from 'react-router-dom';
 import { UserContext } from '../../App';
 import Api from '../WebApi';
 
 export default function UserCreativeProductList() {
     const { user } = useContext(UserContext);
     const [userProductList, setUserProductList] = useState([]);
+    const navigate = useNavigate();
     const [isLoading, setIsLoading] = useState(true);
     const [isDeleteLoading, setIsDeleteLoading] = useState(false);
     const [error, setError] = useState('');
@@ -49,6 +51,9 @@ export default function UserCreativeProductList() {
             setIsDeleteLoading(false)
         }
     };
+    const handleProductDtails = (product) => {
+        navigate('/userproductdetails', { state: product });
+    }
 
 
 
@@ -91,10 +96,10 @@ export default function UserCreativeProductList() {
                             <br />
                             <div className='w-full'>
                                 <small>{product.createdAt}</small>
-                                <button disabled={isDeleteLoading} onClick={() => handleDeleteProduct(product._id)} className='text-xl float-right btn btn-outline btn-warning'  >{isDeleteLoading ? <SlSpinner /> : <RiDeleteBin6Line />}</button>
+                                <button disabled={isDeleteLoading} onClick={() => { if (window.confirm('Are You want to Delete this')) handleDeleteProduct(product._id) }} className='text-xl float-right btn btn-outline btn-warning'  >{isDeleteLoading ? <SlSpinner /> : <RiDeleteBin6Line />}</button>
                             </div>
                             <div slot="footer">
-                                <SlButton variant="primary" pill>
+                                <SlButton variant="primary" pill onClick={() => handleProductDtails(product)}>
                                     More Info
                                 </SlButton>
                                 <SlRating></SlRating>

@@ -5,6 +5,7 @@ import SlSpinner from '@shoelace-style/shoelace/dist/react/spinner';
 import axios from 'axios';
 import { useContext, useEffect, useState } from 'react';
 import { RiDeleteBin6Line } from "react-icons/ri";
+import { useNavigate } from 'react-router-dom';
 import { UserContext } from '../../App';
 import Api from '../WebApi';
 
@@ -14,6 +15,7 @@ export default function UserScrapList() {
     const [isLoading, setIsLoading] = useState(true);
     const [error, setError] = useState('');
     const [isDeleteLoading, setIsDeleteLoading] = useState(false);
+    const navigate = useNavigate();
 
 
     useEffect(() => {
@@ -64,6 +66,10 @@ export default function UserScrapList() {
         return formattedCreatedAt;
     }
 
+    const handleScrapDetais = (product)=>{
+        navigate('/userscrapdetails', { state: product });
+    }
+
     const css = `
         .card-overview {
             max-width: 300px;
@@ -104,10 +110,10 @@ export default function UserScrapList() {
                             <br />
                             <div>
                                 <small>{converintoDate(product.createdAt)}</small>
-                                <button disabled={isDeleteLoading} onClick={() => handleDeleteProduct(product._id)} className='text-xl float-right btn btn-outline btn-warning'  >{isDeleteLoading ? <SlSpinner /> : <RiDeleteBin6Line />}</button>
+                                <button disabled={isDeleteLoading} onClick={() => {if(window.confirm('are you want sure delete this'))handleDeleteProduct(product._id)}} className='text-xl float-right btn btn-outline btn-warning'  >{isDeleteLoading ? <SlSpinner /> : <RiDeleteBin6Line />}</button>
                             </div>
                             <div slot="footer">
-                                <SlButton variant="primary" pill>
+                                <SlButton variant="primary" pill onClick={()=>{handleScrapDetais(product)}}>
                                     More Info
                                 </SlButton>
                                 <SlBadge variant="danger" pill>

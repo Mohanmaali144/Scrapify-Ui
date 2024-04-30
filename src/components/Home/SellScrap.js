@@ -31,7 +31,7 @@ export default function SellScrap() {
                 </svg>
             </button>
 
-            <div className="float-left w-full h-auto  ">
+            <div className="flex justify-center items-center w-full h-auto  ">
                 {Upload ? <ProductUplodedForm /> : <UserCreativeProductList />}
             </div>
         </div>

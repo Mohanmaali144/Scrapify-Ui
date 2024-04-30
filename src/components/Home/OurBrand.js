@@ -1,5 +1,6 @@
+import About from "../ui/About"
 export default function OurBrand() {
     return (<>
-        <h3>OurBrand component . . . . . . .. </h3>
+        <About />
     </>)
 }

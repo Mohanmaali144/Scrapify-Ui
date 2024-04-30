@@ -61,7 +61,7 @@ function ProductUplodedForm() {
     };
 
     return (
-        <div className="w-full h-full flex justify-center items-center border-2 border-slate-800 rounded-xl p-4">
+        <div className="sm:w-3/5 w-10/12 h-full flex justify-center items-center border-2 border-slate-800 rounded-xl p-4">
             <form className='grid-cols-2 w-10/12 grid gap-4' onSubmit={handleSubmit} enctype="multipart/form-data">
 
                 <div className='col-span-2'>

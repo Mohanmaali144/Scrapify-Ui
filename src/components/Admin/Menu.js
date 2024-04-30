@@ -1,19 +1,15 @@
 import { useState } from "react";
-import Dashboard from "./Dashboard";
-import OrderDetails from "./OrderDetails";
-import { FaClipboardList } from "react-icons/fa";
-import { TbListDetails } from "react-icons/tb";
-import { FaRegListAlt } from "react-icons/fa";
-import { FaUser } from "react-icons/fa6";
-import { FaTruckFast } from "react-icons/fa6";
+import { FaClipboardList, FaRegListAlt } from "react-icons/fa";
+import { FaTruckFast, FaUser } from "react-icons/fa6";
 import { FcFeedback } from "react-icons/fc";
-import ProductDetails from "./ProductDetails";
-import SlTree from '@shoelace-style/shoelace/dist/react/tree';
-import SlTreeItem from '@shoelace-style/shoelace/dist/react/tree-item';
-import ScrapList from "./ScrapList";
-import VehicleDetails from "./VehicleDetails";
-import UserDetails from "./UserDetails";
+import { TbListDetails } from "react-icons/tb";
+import Dashboard from "./Dashboard";
 import Feedback from "./Feedback";
+import OrderDetails from "./OrderDetails";
+import ProductDetails from "./ProductDetails";
+import ScrapList from "./ScrapList";
+import UserDetails from "./UserDetails";
+import VehicleDetails from "./VehicleDetails";
 
 export default function Menu() {
   const [isOrders, setOrders] = useState(false);
@@ -23,7 +19,7 @@ export default function Menu() {
   const [isVehicleDetails, setVehicleDetails] = useState(false);
   const [isUserDetails, setUserDetails] = useState(false);
   const [isFeedback, setFeedback] = useState(false);
-  
+
   return (
     <>
       <div className="bg-slate-200 flex h-screen">
@@ -122,26 +118,20 @@ export default function Menu() {
                   <span>
                     <TbListDetails className="h-6 w-6" />
                   </span>
-                  <SlTree>
-                    <SlTreeItem>
-                      <span style={{color:"#D1D5DB", marginLeft:"-5px"}}>Product Stock</span>
-                      <SlTreeItem>User Product</SlTreeItem>
-                      <SlTreeItem>Company Product</SlTreeItem>
-                    </SlTreeItem>
-                  </SlTree>
+                  <span>Product Stock</span>
                 </button>
               </li>
 
               <li className="relative">
-                <button  onClick={() => {
-                    setDashboard(false);
-                    setOrders(false);
-                    setProduct(false);
-                    setScrapList(true);
-                    setUserDetails(false);
-                    setVehicleDetails(false);
-                    setFeedback(false);
-                  }} className="focus:bg-slate-600 hover:bg-slate-600 flex w-full space-x-2 rounded-md px-10 py-4 text-gray-300 focus:outline-none text-lg">
+                <button onClick={() => {
+                  setDashboard(false);
+                  setOrders(false);
+                  setProduct(false);
+                  setScrapList(true);
+                  setUserDetails(false);
+                  setVehicleDetails(false);
+                  setFeedback(false);
+                }} className="focus:bg-slate-600 hover:bg-slate-600 flex w-full space-x-2 rounded-md px-10 py-4 text-gray-300 focus:outline-none text-lg">
                   <span>
                     <FaRegListAlt className="h-6 w-6" />
                   </span>
@@ -149,15 +139,15 @@ export default function Menu() {
                 </button>
               </li>
               <li className="relative">
-                <button  onClick={() => {
-                    setDashboard(false);
-                    setOrders(false);
-                    setProduct(false);
-                    setScrapList(false);
-                    setUserDetails(true);
-                    setVehicleDetails(false);
-                    setFeedback(false);
-                  }} className="focus:bg-slate-600 hover:bg-slate-600 flex w-full space-x-2 rounded-md px-10 py-4 text-gray-300 focus:outline-none text-lg">
+                <button onClick={() => {
+                  setDashboard(false);
+                  setOrders(false);
+                  setProduct(false);
+                  setScrapList(false);
+                  setUserDetails(true);
+                  setVehicleDetails(false);
+                  setFeedback(false);
+                }} className="focus:bg-slate-600 hover:bg-slate-600 flex w-full space-x-2 rounded-md px-10 py-4 text-gray-300 focus:outline-none text-lg">
                   <span>
                     <FaUser className="h-6 w-6" />
                   </span>
@@ -165,15 +155,15 @@ export default function Menu() {
                 </button>
               </li>
               <li className="relative">
-                <button   onClick={() => {
-                    setDashboard(false);
-                    setOrders(false);
-                    setProduct(false);
-                    setScrapList(false);
-                    setUserDetails(false);
-                    setVehicleDetails(true);
-                    setFeedback(false);
-                  }}className="focus:bg-slate-600 hover:bg-slate-600 flex w-full space-x-2 rounded-md px-10 py-4 text-gray-300 focus:outline-none text-lg">
+                <button onClick={() => {
+                  setDashboard(false);
+                  setOrders(false);
+                  setProduct(false);
+                  setScrapList(false);
+                  setUserDetails(false);
+                  setVehicleDetails(true);
+                  setFeedback(false);
+                }} className="focus:bg-slate-600 hover:bg-slate-600 flex w-full space-x-2 rounded-md px-10 py-4 text-gray-300 focus:outline-none text-lg">
                   <span>
                     <FaTruckFast className="h-6 w-6" />
                   </span>
@@ -181,15 +171,15 @@ export default function Menu() {
                 </button>
               </li>
               <li className="relative">
-                <button   onClick={() => {
-                    setDashboard(false);
-                    setOrders(false);
-                    setProduct(false);
-                    setScrapList(false);
-                    setUserDetails(false);
-                    setVehicleDetails(false);
-                    setFeedback(true);
-                  }}className="focus:bg-slate-600 hover:bg-slate-600 flex w-full space-x-2 rounded-md px-10 py-4 text-gray-300 focus:outline-none text-lg">
+                <button onClick={() => {
+                  setDashboard(false);
+                  setOrders(false);
+                  setProduct(false);
+                  setScrapList(false);
+                  setUserDetails(false);
+                  setVehicleDetails(false);
+                  setFeedback(true);
+                }} className="focus:bg-slate-600 hover:bg-slate-600 flex w-full space-x-2 rounded-md px-10 py-4 text-gray-300 focus:outline-none text-lg">
                   <span>
                     <FcFeedback className="h-6 w-6" />
                   </span>
@@ -313,10 +303,10 @@ export default function Menu() {
           {isOrders ? <OrderDetails /> : ""}
           {isDashboard ? <Dashboard /> : ""}
           {isProduct ? <ProductDetails /> : ""}
-          {isScrapList ? <ScrapList/>:""}
-          {isVehicleDetails ? <VehicleDetails/>:""}
-          {isUserDetails ? <UserDetails/>:""}
-          {isFeedback? <Feedback/>:""}
+          {isScrapList ? <ScrapList /> : ""}
+          {isVehicleDetails ? <VehicleDetails /> : ""}
+          {isUserDetails ? <UserDetails /> : ""}
+          {isFeedback ? <Feedback /> : ""}
 
 
           {/* end compoennets */}
