@@ -1,3 +1,4 @@
+import SlSpinner from '@shoelace-style/shoelace/dist/react/spinner';
 import axios from 'axios';
 import React, { useContext, useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
@@ -8,7 +9,9 @@ import './css/otp.css';
 const OTPForm = ({ setShowOtp, handleSendOtp, username, email, password, contact, setSignup }) => {
     const [otp, setOtp] = useState(['', '', '', '']);
     const [resendTimer, setResendTimer] = useState(30);
+    const [isLoader, setIsLoader] = useState(false)
     const [otpError, setotpError] = useState("");
+    const [isResending, setIsResending] = useState(false);
     const navigate = useNavigate();
 
     const { user, setUser } = useContext(UserContext);
@@ -23,6 +26,7 @@ const OTPForm = ({ setShowOtp, handleSendOtp, username, email, password, contact
     };
 
     const handleSubmit = async (event) => {
+        setIsLoader(true)
         event.preventDefault();
         try {
             const otpn = otp.join('');
@@ -49,13 +53,18 @@ const OTPForm = ({ setShowOtp, handleSendOtp, username, email, password, contact
             else {
                 toast.error("Internal server Error");
             }
+        } finally {
+            setIsLoader(false)
         }
 
     };
 
+
+
     const handleResend = async () => {
-        console.log('Resending OTP...');
+        setIsResending(true);
         await handleSendOtp();
+        setIsResending(false);
         setResendTimer(30);
     };
 
@@ -88,7 +97,7 @@ const OTPForm = ({ setShowOtp, handleSendOtp, username, email, password, contact
                         />
                     ))}
                 </div>
-                <button className="w-4/5 bg-[#272727] font-oswald font-medium hover:opacity-90 transition ease-in-out duration-100 mb-5 text-white p-1 rounded-lg" type="submit">Verify</button>
+                <button className="w-4/5 bg-[#272727] font-oswald font-medium hover:opacity-90 transition ease-in-out duration-100 mb-5 text-white p-1 rounded-lg" type="submit">{isLoader ? <SlSpinner /> : 'Verify'}</button>
                 <small style={{ color: "red", position: "abslute" }}>{otpError}</small>
                 <p className="resendNote font-oswald">
                     Didn't receive the code?{' '}
@@ -98,6 +107,7 @@ const OTPForm = ({ setShowOtp, handleSendOtp, username, email, password, contact
                         <span>Resend in {resendTimer} seconds</span>
                     )}
                 </p>
+
                 <button onClick={() => setShowOtp(false)} className='w-4/5 bg-[#272727] font-oswald font-medium hover:opacity-90 transition ease-in-out duration-100 mb-5 text-white p-1 rounded-lg'>Back</button>
             </form>
         </div>

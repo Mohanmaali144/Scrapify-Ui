@@ -1,10 +1,15 @@
 import axios from "axios";
+import { TextInput } from "flowbite-react";
 import React, { useContext, useState } from "react";
+import { FaUserEdit } from "react-icons/fa";
+import { IoMdCloseCircle } from "react-icons/io";
+import { MdOutlineDownloadDone } from "react-icons/md";
 import { UserContext } from "../../App";
 import Api from "../WebApi";
+import UpdateAddress from "../ui/UpdateAddress";
 
 export default function UserProfile() {
-    const { user, setUser } = useContext(UserContext); 
+    const { user, setUser } = useContext(UserContext);
     const [editMode, setEditMode] = useState(false);
     const [formData, setFormData] = useState({
         username: user ? user.username : "",
@@ -54,65 +59,57 @@ export default function UserProfile() {
     };
 
     return <>
-            <header className="bg-white shadow-lg p-4">
-                <div className="container mx-auto flex justify-between items-center">
-                    <h1 className="text-2xl font-semibold text-gray-800">User Profile</h1>
-                    {editMode ? (
-                        <div>
-                            <button className="bg-blue-500 text-white py-2 px-4 rounded-md mr-2" onClick={handleSaveChanges}>
-                                Save
-                            </button>
-                            <button className="bg-gray-300 text-gray-800 py-2 px-4 rounded-md" onClick={handleCancelEdit}>
-                                Cancel
-                            </button>
-                        </div>
-                    ) : (
-                        <button className="bg-blue-500 text-white py-2 px-4 rounded-md" onClick={handleEditProfile}>
-                            Edit Profile
-                        </button>
-                    )}
-                </div>
-            </header>
-
-            <div className="max-w-custom mx-auto mt-10 bg-white p-8 rounded shadow-md">
+        <div className="flex flex-col md:flex-row justify-around  font-oswald text-gray-700 w-full items-start">
+            <div className="max-w-sm mx-auto mt-2  bg-[#fdf4ff] p-8 rounded-xl shadow-md">
                 <div className="mb-4">
-                    <div className="edit-container">
-                        <h3 className="text-lg font-semibold">Username</h3>
+                    <div className="edit-container flex justify-between items-center">
+                        <h3 className="text-md ">Username</h3>
+                        <h3 className="text-3xl "> {editMode ? (
+                            <div className="flex justify-center items-center">
+                                <MdOutlineDownloadDone className="mr-3" onClick={handleSaveChanges} />
+                                <IoMdCloseCircle onClick={handleCancelEdit} />
+                            </div>
+                        ) : (
+                            <FaUserEdit onClick={handleEditProfile} />
+                        )}</h3>
                     </div>
-                    <input
+                    <TextInput
                         type="text"
                         id="username"
+                        className="mt-2"
                         value={formData.username}
-                        className="input-field mt-5 mb-5 bg-gray-100 text-gray-700 border border-gray-300 p-3 w-64"
                         disabled={!editMode}
                         onChange={handleInputChange}
                     />
                 </div>
                 <div className="mb-4">
                     <div className="edit-container">
-                        <h3 className="text-lg font-semibold">Mobile Number</h3>
+                        <h3 className="text-md">Mobile Number</h3>
                     </div>
-                    <input
+                    <TextInput
                         type="text"
                         id="contact"
                         value={formData.contact}
-                        className="input-field mt-5 mb-5 bg-gray-100 text-gray-700 border border-gray-300 p-3 w-64"
                         disabled={!editMode}
                         onChange={handleInputChange}
                     />
                 </div>
                 <div className="mb-4">
                     <div className="edit-container">
-                        <h3 className="text-lg font-semibold">Email Address</h3>
+                        <h3 className="text-md">Email Address</h3>
                     </div>
-                    <input
+                    <TextInput
                         type="email"
                         id="email"
                         value={formData.email}
-                        className="input-field mt-5 mb-7 bg-gray-100 text-gray-700 border border-gray-300 p-3 w-64"
                         disabled
                     />
                 </div>
+
             </div>
-        </>
+            <div className="sm:w-3/4 flex justify-center items-center w-full">
+                <UpdateAddress />
+            </div>
+        </div>
+    </>
 }

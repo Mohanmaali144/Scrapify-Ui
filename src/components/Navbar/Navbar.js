@@ -49,7 +49,7 @@ export default function Navbar() {
     }
 
     return <>
-        <div className="relative h-[100px]">
+        <div className="relative h-[100px] bg-[#f6f6f6]">
 
             <div className=" h-[60px] flex ml-6 sm:-ml-4 justify-center items-center ">
                 <div className=" h-full visible sm:hidden w-1/3  flex ">

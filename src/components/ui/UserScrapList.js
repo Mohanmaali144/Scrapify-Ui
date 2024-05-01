@@ -66,7 +66,7 @@ export default function UserScrapList() {
         return formattedCreatedAt;
     }
 
-    const handleScrapDetais = (product)=>{
+    const handleScrapDetais = (product) => {
         navigate('/userscrapdetails', { state: product });
     }
 
@@ -92,6 +92,8 @@ export default function UserScrapList() {
                 <p>Loading...</p>
             ) : error ? (
                 <p>Error: {error}</p>
+            ) : userProductList.length === 0 ? (
+                <p>No scrap products available.</p>
             ) : (<div className='grid grid-cols-1 sm:grid-cols-3 md:grid-cols-4 sm:gap-3 gap-2 place-items-center '>{
                 userProductList.map((product) => (
                     <>
@@ -110,10 +112,10 @@ export default function UserScrapList() {
                             <br />
                             <div>
                                 <small>{converintoDate(product.createdAt)}</small>
-                                <button disabled={isDeleteLoading} onClick={() => {if(window.confirm('are you want sure delete this'))handleDeleteProduct(product._id)}} className='text-xl float-right btn btn-outline btn-warning'  >{isDeleteLoading ? <SlSpinner /> : <RiDeleteBin6Line />}</button>
+                                <button disabled={isDeleteLoading} onClick={() => { if (window.confirm('are you want sure delete this')) handleDeleteProduct(product._id) }} className='text-xl float-right btn btn-outline btn-warning'  >{isDeleteLoading ? <SlSpinner /> : <RiDeleteBin6Line />}</button>
                             </div>
                             <div slot="footer">
-                                <SlButton variant="primary" pill onClick={()=>{handleScrapDetais(product)}}>
+                                <SlButton variant="primary" pill onClick={() => { handleScrapDetais(product) }}>
                                     More Info
                                 </SlButton>
                                 <SlBadge variant="danger" pill>

@@ -22,34 +22,22 @@ export default function MyProfile() {
 
     return (
         <>
-            <div className='p-4'>
+            <div className='bg-[#FAF7EF]'>
                 <SlTabGroup>
                     <SlTab slot="nav" panel="profile">
-                        <div className="indicator">
-                            <button className="btn">My Profile</button>
-                        </div>
+                        My Profile
                     </SlTab>
                     <SlTab slot="nav" panel="products">
-                        <div className="indicator">
-                            <button className="btn">My Products</button>
-                        </div>
+                        My Products
                     </SlTab>
                     <SlTab slot="nav" panel="scrap">
-                        <div className="indicator">
-                            <button className="btn">My Scrap</button>
-                        </div>
+                        My Scrap
                     </SlTab>
                     <SlTab slot="nav" panel="message">
-                        <div className="indicator">
-                            <span className="indicator-item badge text-white bg-black">99+</span>
-                            <button className="btn">Message</button>
-                        </div>
+                        Message
                     </SlTab>
                     <SlTab slot="nav" panel="notification" active={state}>
-                        <div className="indicator">
-                            <span className="indicator-item badge text-white bg-black">9+</span>
-                            <button className="btn">Notifications</button>
-                        </div>
+                        Notifications
                     </SlTab>
                     <SlTabPanel name="profile"><UserProfile /></SlTabPanel>
                     <SlTabPanel name="products"><SellScrap /></SlTabPanel>

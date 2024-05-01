@@ -1,13 +1,25 @@
+import SlSpinner from '@shoelace-style/shoelace/dist/react/spinner';
 import axios from 'axios';
 import { Button, FileInput, Label, TextInput } from 'flowbite-react';
 import React, { useContext, useState } from 'react';
 import { useSelector } from 'react-redux';
+import { toast } from 'react-toastify';
 import { UserContext } from '../../App';
 import Api from '../WebApi';
 function ProductUplodedForm() {
 
     const { categoryList, isLoading, error } = useSelector((store) => store.category);
     const { user, setUser } = useContext(UserContext);
+    const [loading, setLoading] = useState(false);
+    const [errors, setErrors] = useState({
+        title: '',
+        description: '',
+        category: '',
+        price: '',
+        thumbnail: '',
+        images: ''
+    });
+
 
     const [formData, setFormData] = useState({
         title: '',
@@ -22,20 +34,24 @@ function ProductUplodedForm() {
     const handleInputChange = (e) => {
         const { name, value } = e.target;
         setFormData({ ...formData, [name]: value });
-    };
 
-    const handleThumbnailChange = (e) => {
-        const file = e.target.files[0];
-        setFormData({ ...formData, thumbnail: file });
-    };
-
-    const handleImagesChange = (e) => {
-        const files = Array.from(e.target.files);
-        setFormData({ ...formData, images: files });
+        if (!value.trim()) {
+            setErrors((prevState) => ({ ...prevState, [name]: `${name} cannot be empty` }));
+        } else {
+            setErrors((prevState) => ({ ...prevState, [name]: '' }));
+        }
     };
 
     const handleSubmit = async (e) => {
         e.preventDefault();
+
+        const isFormValid = Object.values(errors).every((error) => !error);
+        if (!isFormValid) {
+            toast.error('Please fill all fields correctly and ensure they are not empty');
+            return;
+        }
+
+        setLoading(true);
 
         const formDataToSend = new FormData();
         formDataToSend.append('productName', formData.title);
@@ -48,25 +64,44 @@ function ProductUplodedForm() {
             formDataToSend.append('images', image);
         });
 
-
-
         try {
             console.log(formDataToSend);
-            console.log("DATAAAAAAAAAAAAAAAAAA :  ", formDataToSend);
             const response = await axios.post(Api.AddProductByUserID, formDataToSend);
             console.log('Product added successfully:', response.data);
         } catch (error) {
             console.log('Error adding product:', error);
+        } finally {
+            setLoading(false);
         }
     };
 
+
+
+
+
+    const handleThumbnailChange = (e) => {
+        const file = e.target.files[0];
+        setFormData({ ...formData, thumbnail: file });
+
+    };
+
+    const handleImagesChange = (e) => {
+        const files = Array.from(e.target.files);
+        setFormData({ ...formData, images: files });
+    };
+
+
+
     return (
+
         <div className="sm:w-3/5 w-10/12 h-full flex justify-center items-center border-2 border-slate-800 rounded-xl p-4">
             <form className='grid-cols-2 w-10/12 grid gap-4' onSubmit={handleSubmit} enctype="multipart/form-data">
 
                 <div className='col-span-2'>
                     <div> <Label htmlFor="title" value="Title" /></div>
                     <TextInput type="text" name="title" placeholder="Title" onChange={handleInputChange} />
+                    <br />
+                    <span className="text-red-500 z-30">{errors.title}</span>
                 </div>
 
                 <div className='col-span-1'>
@@ -79,6 +114,7 @@ function ProductUplodedForm() {
                             </option>
                         ))}
                     </select>
+                    <span className="text-red-500">{errors.category}</span>
                 </div>
 
 
@@ -90,11 +126,15 @@ function ProductUplodedForm() {
                         <textarea className="textarea textarea-bordered h-24"
                             placeholder="Add Scrap Description" type="text" name="description" onChange={handleInputChange}>
                         </textarea>
+                        <span className="text-red-500">{errors.description}</span>
                     </label>
                 </div>
                 <div className='cols-span-2'>
-                    <div> <Label htmlFor="price" value="Price" /></div>
+                    <div> <Label htmlFor="price" value="Price" />
+                        <span className="text-red-500">{errors.price}</span>
+                    </div>
                     <TextInput type="number" name="price" placeholder="Price" onChange={handleInputChange} />
+
                 </div>
 
                 <div className='col-span-2'>
@@ -104,7 +144,10 @@ function ProductUplodedForm() {
                         </div>
                         <FileInput type="file" name="thumbnail" accept="image/*" onChange={handleThumbnailChange} id="file-upload" />
                     </div>
-                    <input />
+
+                </div>
+                <div>
+                    <span className="text-red-500">{errors.thumbnail}</span>
                 </div>
 
                 <div className='col-span-2'>
@@ -112,9 +155,13 @@ function ProductUplodedForm() {
                         <Label htmlFor="file-upload" value="Upload Images" />
                     </div>
                     <FileInput type="file" name="images" accept="image/*" multiple onChange={handleImagesChange} />
+
+                </div>
+                <div>
+                    <span className="text-red-500">{errors.images}</span>
                 </div>
                 <div className='col-span-2'>
-                    <Button className='b' type="submit">Add Product</Button>
+                    <Button className='bg-[#232323]' type="submit">{loading ? <SlSpinner /> : 'Add Product'}</Button>
                 </div>
             </form >
         </div >

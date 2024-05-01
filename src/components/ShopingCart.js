@@ -109,7 +109,7 @@ const ProductShoppingPage = () => {
                             </div>
                         </div>
                     </div>
-                    <button className="mt-4 mb-8 w-full rounded-md bg-gray-900 px-6 py-3 font-medium text-white" onClick={handlePlaceOrder}>Place Order</button>
+                    <button className={`mt-4 mb-8 w-full rounded-md bg-gray-900 px-6 py-3 font-medium text-white` } disabled={cart.cartItems.length == 0} onClick={handlePlaceOrder}>Place Order</button>
                 </div>
             </div>
         </div>

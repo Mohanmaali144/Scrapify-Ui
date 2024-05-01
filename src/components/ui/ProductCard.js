@@ -21,7 +21,7 @@ const ProductCard = () => {
 
     if (!productList) return null;
 
-    const productDetails = productList.slice(0, 4);
+    const productDetails = productList.slice(0, 8);
 
     const calculateAverageRating = (ratings) => {
         if (ratings.length === 0) {

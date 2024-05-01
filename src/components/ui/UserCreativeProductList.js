@@ -80,6 +80,8 @@ export default function UserCreativeProductList() {
                 <p>Loading...</p>
             ) : error ? (
                 <p>Error: {error}</p>
+            ) : userProductList.length === 0 ? (
+                <p>No products available.</p>
             ) : (<div className='grid grid-cols-1 sm:grid-cols-3 md:grid-cols-4 sm:gap-3 gap-2 place-items-center'>{
                 userProductList.map((product) => (
                     <>
