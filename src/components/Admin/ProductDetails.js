@@ -1,11 +1,14 @@
+import { Table } from "flowbite-react";
 import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
+import { useNavigate } from "react-router-dom";
 import { getCategory } from "../../redux-config/CategorySlice";
 import { getProduct } from "../../redux-config/ProductSlice";
 import { getScrapCategorySlice } from "../../redux-config/ScrapCategory";
 
 export default function ProductDetails() {
   const { productList, isLoading, error } = useSelector((store) => store.product);
+  const navigate = useNavigate();
 
   const dispatch = useDispatch();
   useEffect(() => {
@@ -13,81 +16,54 @@ export default function ProductDetails() {
     dispatch(getCategory());
     dispatch(getScrapCategorySlice());
   }, []);
-  const renderProductRows = () => {
-    return productList.map((productItem, index) => (
-      <tr key={productItem._id}>
-        <td className="border-b border-gray-200 bg-white px-5 py-5 text-sm">
-          <p className="whitespace-no-wrap">{index + 1}</p>
-        </td>
 
-        <td className="border-b border-gray-200 bg-white px-5 py-5 text-sm">
-          <div className="flex items-center">
-            <div className="ml-3">
-              <p className="whitespace-no-wrap">{productItem.productName}</p>
-            </div>
-          </div>
-        </td>
-        <td className="border-b border-gray-200 bg-white px-5 py-5 text-sm">
-          <p className="whitespace-no-wrap flex items-center ml-3">{productItem.price}</p>        </td>
-
-        <td className="border-b border-gray-200 bg-white px-5 py-5 text-sm">
-          <p className="whitespace-no-wrap flex items-center ml-6">{productItem.quantity}</p>
-        </td>
-        <td className="border-b border-gray-200 bg-white px-5 py-5 text-sm">
-          <p className="whitespace-no-wrap flex items-center ml-3">{productItem.category}</p>
-        </td>
-        <td className="border-b border-gray-200 bg-white px-8 py-5 text-sm">
-          <img className="h-12 w-12 flex-shrink-0 rounded-full" src={productItem.thumbnail} alt="" />
-        </td>
-
-        <td className="border-b border-gray-200 bg-white px-5 py-5 text-sm">
-          <button className="rounded-full bg-yellow-200 px-3 py-1 text-xs font-semibold text-yellow-900">Delete</button>
-        </td>
-      </tr>
-    ));
-  };
+  const handleClick = (item) => {
+    navigate('/adminproductview', { state: item })
+  }
 
   return (
-    <div className="mx-auto max-w-screen-lg px-4 py-8 sm:px-8 lg:max-w-full">
-      <div className="pb-6">
-        <div className="flex justify-evenly">
-          <button
-            className="rounded-full bg-gray-300 px-4 py-2 text-sm font-semibold text-gray-900 mr-2"
-          >
-            View All
-          </button>
-          <button
-            className="rounded-full bg-green-200 px-4 py-2 text-sm font-semibold text-green-900 mr-2"
-          >
-            Company Products
-          </button>
-          <button
-            className="rounded-full bg-yellow-200 px-4 py-2 text-sm font-semibold text-yellow-900 mr-2"
-          >
-            User Products
-          </button>
-        </div>
-      </div>
-      <div className="overflow-y-hidden rounded-lg border">
-        <div className="overflow-x-auto max-w-screen-xl mx-auto">
-          <table className="w-90">
-            <thead>
-              <tr className="bg-blue-600 text-left text-xs font-semibold uppercase tracking-widest text-white">
-                <th className="px-5 py-3">ID</th>
-                <th className="px-5 py-3">Product Name</th>
-                <th className="px-5 py-3">Product Price</th>
-                <th className="px-5 py-3">Stock Quantity</th>
-                <th className="px-5 py-3">Product Category</th>
-                <th className="px-5 py-3">Product image</th>
-                <th className="px-5 py-3">Delete</th>
-              </tr>
-            </thead>
-            <tbody className="text-gray-500">
-              {renderProductRows()}
-            </tbody>
-          </table>
-        </div>
-      </div>
-    </div>
+    <>
+      {isLoading && <p>Loading...</p>}
+      {!isLoading && productList && productList.length === 0 && <p>No scrap lead available right now.</p>}
+      {
+        !isLoading && productList && productList.length > 0 && (
+          <div className="mt-2 overflow-x-auto ">
+            <Table>
+              <Table.Head className="sticky top-0">
+                <Table.HeadCell>Id</Table.HeadCell>
+                <Table.HeadCell>Product Name</Table.HeadCell>
+                <Table.HeadCell>Product Price</Table.HeadCell>
+                <Table.HeadCell>Stock Quantity</Table.HeadCell>
+                <Table.HeadCell>Product Category</Table.HeadCell>
+                <Table.HeadCell>Product Image</Table.HeadCell>
+                <Table.HeadCell>
+                  <span className="sr-only">Edit</span>
+                </Table.HeadCell>
+              </Table.Head>
+              <Table.Body className="divide-y">
+                {productList.map((item, index) => (
+                  <Table.Row key={item._id} className="border-gray-700 bg-gray-800">
+                    <Table.Cell className=" font-medium text-white">
+                      {index + 1}
+                    </Table.Cell>
+                    <Table.Cell>{item.productName}</Table.Cell>
+                    <Table.Cell>{item.price}</Table.Cell>
+                    <Table.Cell>{item.quantity}</Table.Cell>
+                    <Table.Cell>{item.category}</Table.Cell>
+                    <Table.Cell><img src={item.thumbnail} className="h-14 w-11 rounded-md" /></Table.Cell>
+                    <Table.Cell>
+                      <button onClick={() => handleClick(item)} className="font-medium hover:underline text-cyan-500">
+                        View Details
+                      </button>
+                    </Table.Cell>
+                  </Table.Row>
+                ))}
+              </Table.Body>
+            </Table>
+          </div>
+        )
+      }
+    </>
+
   );
 }

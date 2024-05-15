@@ -11,12 +11,14 @@ function ProductUplodedForm() {
     const { categoryList, isLoading, error } = useSelector((store) => store.category);
     const { user, setUser } = useContext(UserContext);
     const [loading, setLoading] = useState(false);
+    const [finalPrice, setFinalPrice] = useState(0);
     const [errors, setErrors] = useState({
         title: '',
         description: '',
         category: '',
         price: '',
         thumbnail: '',
+        shippingcost: '',
         images: ''
     });
 
@@ -27,6 +29,11 @@ function ProductUplodedForm() {
         categoryName: '',
         price: '',
         seller: '',
+        brand: '',
+        actualprice: '',
+        quintity: '',
+        discount: '',
+        shippingcost: '',
         thumbnail: null,
         images: []
     });
@@ -44,21 +51,21 @@ function ProductUplodedForm() {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-
         const isFormValid = Object.values(errors).every((error) => !error);
         if (!isFormValid) {
             toast.error('Please fill all fields correctly and ensure they are not empty');
             return;
         }
-
         setLoading(true);
-
         const formDataToSend = new FormData();
         formDataToSend.append('productName', formData.title);
         formDataToSend.append('description', formData.description);
         formDataToSend.append('category', formData.category);
         formDataToSend.append('price', formData.price);
+        formDataToSend.append('quintity', formData.quintity);
         formDataToSend.append('sellerId', user._id);
+        formDataToSend.append('brand', formData.brand)
+        formDataToSend.append('shippingcost', formData.shippingcost)
         formDataToSend.append('thumbnail', formData.thumbnail);
         formData.images.forEach((image, index) => {
             formDataToSend.append('images', image);
@@ -75,10 +82,6 @@ function ProductUplodedForm() {
         }
     };
 
-
-
-
-
     const handleThumbnailChange = (e) => {
         const file = e.target.files[0];
         setFormData({ ...formData, thumbnail: file });
@@ -90,7 +93,25 @@ function ProductUplodedForm() {
         setFormData({ ...formData, images: files });
     };
 
+    function calculateFinalPrice() {
+        let actualPrice = 200;
+        let discountPercentage = 10;
+        let shippingCost = 5;
+        let quantity = 2;
+        let commissionPercentage = 5;
+        let discountedPrice = actualPrice - (actualPrice * (discountPercentage / 100));
+        let totalShippingCost = shippingCost * quantity;
+        let finalPriceBeforeCommission = discountedPrice + totalShippingCost;
+        let commissionPrice = finalPriceBeforeCommission * (commissionPercentage / 100);
+        // let finalPrice = finalPriceBeforeCommission + commissionPrice;
+        // setFinalCost(finalPrice||200)
+    }
 
+    let actualPrice = 111;
+    let discountPercentage = 10;
+    let shippingCost = 5;
+    let quantity = 2;
+    let commissionPercentage = 5;
 
     return (
 
@@ -116,6 +137,12 @@ function ProductUplodedForm() {
                     </select>
                     <span className="text-red-500">{errors.category}</span>
                 </div>
+                <div className='col-span-1'>
+                    <div>
+                        <Label htmlFor='brand'>Brand Name</Label>
+                        <TextInput type='text' name='brand' placeholder='Brand Name' onChange={handleInputChange} ></TextInput>
+                    </div>
+                </div>
 
 
                 <div className='col-span-2'>
@@ -129,13 +156,56 @@ function ProductUplodedForm() {
                         <span className="text-red-500">{errors.description}</span>
                     </label>
                 </div>
+
+                {/* price --------------------- */}
+                <div className='cols-span-2'>
+                    <div> <Label htmlFor="actual price" value="Actual Price" />
+                        <span className="text-red-500">{errors.price}</span>
+                    </div>
+                    <TextInput type="number" min={0} defaultValue={0} name="actual price" placeholder="Actual Price" />
+
+                </div>
+                <div className='cols-span-2'>
+                    <div> <Label htmlFor="quintity" value='Quintity' />
+                        <span className="text-red-500">{errors.quintity}</span>
+                    </div>
+                    <TextInput min={1} defaultValue={1} type="number" name="quintity" placeholder="Quintity" onChange={handleInputChange} />
+
+                </div>
+                <div className='cols-span-2'>
+                    <div> <Label htmlFor="ShippingCost" value="ShippingCost" />
+                        <span className="text-red-500">{errors.price}</span>
+                    </div>
+                    <TextInput type="number" min={0} defaultValue={0} name="shippingcost" placeholder="ShippingCost" onChange={handleInputChange} />
+
+                </div>
+                <div className='cols-span-2'>
+                    <div> <Label htmlFor="discount" value='Discount' />
+                        <span className="text-red-500">{errors.quintity}</span>
+                    </div>
+                    <TextInput min={0} max={80} type="number" name="discount" placeholder="discount" onChange={handleInputChange} />
+
+                </div>
+
+                <div className='cols-span-2'>
+                    <div> <Label htmlFor="Commission" value='Scrapify Commission' />
+                        <span className="text-red-500">{errors.quintity}</span>
+                    </div>
+                    <TextInput min={1} disabled type="Commission" name="Commission" placeholder="Commission" onChange={handleInputChange} />
+
+                </div>
+
                 <div className='cols-span-2'>
                     <div> <Label htmlFor="price" value="Price" />
                         <span className="text-red-500">{errors.price}</span>
                     </div>
-                    <TextInput type="number" name="price" placeholder="Price" onChange={handleInputChange} />
+                    <TextInput type="number" min={0} defaultValue={0} name="price" placeholder="Price" value={123} disabled onChange={handleInputChange} />
 
                 </div>
+
+
+                {/* prce end -------------------------------------------------------- */}
+
 
                 <div className='col-span-2'>
                     <div>

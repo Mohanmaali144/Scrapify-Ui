@@ -3,12 +3,13 @@ import { FaSearch } from "react-icons/fa";
 import { IoMdMenu } from "react-icons/io";
 import { MdOutlineNotificationsNone } from "react-icons/md";
 import { RiShoppingCartLine } from "react-icons/ri";
-import { Link, NavLink, useNavigate } from "react-router-dom";
+import { Link, NavLink, useLocation, useNavigate } from "react-router-dom";
 import Login from "../Home/Login";
 import Signup from "../Home/Signup";
 import SearchProductMobile from "../ui/SearchProductMobile";
 import Sidebar from "./Sidebar";
 
+import swal from "sweetalert";
 import { UserContext } from "../../App";
 
 export default function Navbar() {
@@ -18,8 +19,12 @@ export default function Navbar() {
     const [seachOnMobile, setSeachOnMobile] = useState(false);
     const [signup, setSignup] = useState(false)
     const [login, setLogin] = useState(false)
+    const [iscrapDeleteBtn, setDeleteScrapBtn] = useState(false);
     const [open, setOpen] = useState(false)
     const navigate = useNavigate();
+    const { state } = useLocation();
+
+
 
     useEffect(() => {
         const userData = sessionStorage.getItem('current-user');
@@ -30,14 +35,24 @@ export default function Navbar() {
     }, [user]);
 
     const handleLogout = () => {
-        const heading = 'Log Out';
-        const content = 'Are you sure you want to log out?';
-
-        if (window.confirm('Are you want to sure')) {
-            setUser(null);
-            sessionStorage.removeItem('current-user');
-            navigate('/');
-        };
+        swal({
+            title: "Are you sure to Logout?",
+            icon: "warning",
+            buttons: ["Cancel", "OK"],
+            dangerMode: true,
+        })
+            .then((willDelete) => {
+                if (willDelete) {
+                    swal("Log Out Successfully", {
+                        icon: "success",
+                    });
+                    setUser(null);
+                    sessionStorage.removeItem('current-user');
+                    navigate('/');
+                } else {
+                    setDeleteScrapBtn(false);
+                }
+            });
     };
 
     const handleNotfication = () => {
@@ -58,8 +73,8 @@ export default function Navbar() {
 
                 <div className="sm:w-1/4  w-1/2 ml-6 font-oswald flex  justify-center items-start sm:pl-11 flex-col h-[60px]">
                     {/* logo */}
-                    <h3 className="text-2xl font-extrabold">SCREPIFY</h3>
-                    <span className="text-sm font-bold opacity-65">Slogan paste here</span>
+                    <h3 className="text-2xl font-extrabold">SCRAPIFY</h3>
+                    <span className="text-sm font-bold opacity-65">"Scrap, Sell, Save"</span>
                 </div>
                 <div className=" sm:visible  hidden sm:w-1/2 font-oswald sm:flex justify-center items-center  h-[60px]">
                     {/* searchbar */}

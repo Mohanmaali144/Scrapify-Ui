@@ -1,12 +1,18 @@
 import axios from "axios";
 import { Table } from "flowbite-react";
 import { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 import Api from "../WebApi";
 
 export default function ScrapList() {
   const [scrapList, setScrapList] = useState([]);
   const [loading, setLoading] = useState(true);
 
+  const navigate = useNavigate();
+  const handleClick = (item) => {
+    window.alert('somthing call ', item.price)
+    navigate('/adminHome/adminscrapview', { state: item })
+  }
   useEffect(() => {
     loadScrapList();
   }, []);
@@ -22,6 +28,9 @@ export default function ScrapList() {
     }
   };
 
+
+
+
   const deleteItem = async (itemId) => {
     try {
       const confirmDelete = window.confirm("Are you sure you want to delete this scrap product?");
@@ -33,16 +42,14 @@ export default function ScrapList() {
       console.error('Error deleting scrap item:', error);
     }
   };
-  console.log(scrapList);
-
   return (
     <>
       {loading && <p>Loading...</p>}
       {!loading && scrapList && scrapList.length === 0 && <p>No scrap lead available right now.</p>}
       {!loading && scrapList && scrapList.length > 0 && (
-        <div className="overflow-x-auto">
-          <Table hoverable>
-            <Table.Head>
+        <div className="mt-2 overflow-x-auto ">
+          <Table>
+            <Table.Head className="sticky top-0">
               <Table.HeadCell>Scrap name</Table.HeadCell>
               <Table.HeadCell>UserContact</Table.HeadCell>
               <Table.HeadCell>Category</Table.HeadCell>
@@ -54,8 +61,8 @@ export default function ScrapList() {
             </Table.Head>
             <Table.Body className="divide-y">
               {scrapList.map(item => (
-                <Table.Row key={item._id} className="bg-white dark:border-gray-700 dark:bg-gray-800">
-                  <Table.Cell className="whitespace-nowrap font-medium text-gray-900 dark:text-white">
+                <Table.Row key={item._id} className="border-gray-700 bg-gray-800">
+                  <Table.Cell className=" font-medium text-white">
                     {item.title}
                   </Table.Cell>
                   <Table.Cell>{item.seller.contact}</Table.Cell>
@@ -63,7 +70,7 @@ export default function ScrapList() {
                   <Table.Cell>{item.price}</Table.Cell>
                   <Table.Cell>{item.status}</Table.Cell>
                   <Table.Cell>
-                    <button className="font-medium text-cyan-600 hover:underline dark:text-cyan-500">
+                    <button onClick={() => handleClick(item)} className="font-medium hover:underline text-cyan-500">
                       View Details
                     </button>
                   </Table.Cell>
@@ -73,6 +80,8 @@ export default function ScrapList() {
           </Table>
         </div>
       )}
+
+
     </>
   );
 }

@@ -6,8 +6,10 @@ import axios from 'axios';
 import { useContext, useEffect, useState } from 'react';
 import { RiDeleteBin6Line } from "react-icons/ri";
 import { useNavigate } from 'react-router-dom';
+import swal from 'sweetalert';
 import { UserContext } from '../../App';
 import Api from '../WebApi';
+import Skeleton from './Skeleton';
 
 export default function UserScrapList() {
     const { user } = useContext(UserContext);
@@ -15,6 +17,7 @@ export default function UserScrapList() {
     const [isLoading, setIsLoading] = useState(true);
     const [error, setError] = useState('');
     const [isDeleteLoading, setIsDeleteLoading] = useState(false);
+    const [iscrapDeleteBtn, setDeleteScrapBtn] = useState(false);
     const navigate = useNavigate();
 
 
@@ -40,17 +43,35 @@ export default function UserScrapList() {
 
 
     const handleDeleteProduct = async (productId) => {
-        setIsDeleteLoading(true);
-        try {
-            const response = await axios.delete(`${Api.DeleteScrapProductById}/${productId}`);
-            console.log('Product deleted:', response.data);
-            const updatedProductList = userProductList.filter((product) => product._id !== productId);
-            setUserProductList(updatedProductList);
-            setIsDeleteLoading(false);
-        } catch (error) {
-            console.log('Error deleting product:', error);
-            setIsDeleteLoading(false)
-        }
+        setDeleteScrapBtn(true);
+
+        swal({
+            title: "Are you sure?",
+            text: "You want Delete The Scrap ?",
+            icon: "warning",
+            buttons: ["Cancel", "OK"], // Array containing button text
+            dangerMode: true,
+        })
+            .then(async (willDelete) => {
+                if (willDelete) {
+                    setIsDeleteLoading(true);
+                    swal("Product Deleted", {
+                        icon: "success",
+                    });
+                    try {
+                        const response = await axios.delete(`${Api.DeleteScrapProductById}/${productId}`);
+                        console.log('Product deleted:', response.data);
+                        const updatedProductList = userProductList.filter((product) => product._id !== productId);
+                        setUserProductList(updatedProductList);
+                        setIsDeleteLoading(false);
+                    } catch (error) {
+                        console.log('Error deleting product:', error);
+                        setIsDeleteLoading(false)
+                    }
+                } else {
+                    setDeleteScrapBtn(false);
+                }
+            });
     };
 
     const converintoDate = (date) => {
@@ -85,21 +106,24 @@ export default function UserScrapList() {
             align-items: center;
         }
         `;
-
     return (
         <div>
             {isLoading ? (
-                <p>Loading...</p>
+                [...Array(12)].map((_, index) => (
+                    <div className='w-screen h-auto p-4 grid grid-flow-col grid-cols-4'>
+                        <Skeleton key={index} />
+                    </div>
+                ))
             ) : error ? (
                 <p>Error: {error}</p>
             ) : userProductList.length === 0 ? (
-                <p>No scrap products available.</p>
-            ) : (<div className='grid grid-cols-1 sm:grid-cols-3 md:grid-cols-4 sm:gap-3 gap-2 place-items-center '>{
+                <div className='w-screen bg-white h-screen flex justify-center'><h3 className='mt-11 text-center font-oswald font-medium'>No scrap products available.</h3></div>
+            ) : (<div className='grid grid-cols-1 sm:grid-cols-3 md:grid-cols-4 sm:gap-3 gap-4 p-5 place-items-center '>{
                 userProductList.map((product) => (
                     <>
                         <SlCard className="card-overview">
                             <img
-                                className='h-[300px] object-contain'
+                                className='h-[300px] w-[340px] object-contain'
                                 slot="image"
                                 src={product.thumbnail}
                                 alt={product.title}
@@ -112,7 +136,7 @@ export default function UserScrapList() {
                             <br />
                             <div>
                                 <small>{converintoDate(product.createdAt)}</small>
-                                <button disabled={isDeleteLoading} onClick={() => { if (window.confirm('are you want sure delete this')) handleDeleteProduct(product._id) }} className='text-xl float-right btn btn-outline btn-warning'  >{isDeleteLoading ? <SlSpinner /> : <RiDeleteBin6Line />}</button>
+                                <button disabled={isDeleteLoading} onClick={() => { handleDeleteProduct(product._id) }} className='text-xl float-right btn btn-outline btn-warning'  >{isDeleteLoading ? <SlSpinner /> : <RiDeleteBin6Line />}</button>
                             </div>
                             <div slot="footer">
                                 <SlButton variant="primary" pill onClick={() => { handleScrapDetais(product) }}>

@@ -28,7 +28,7 @@ export default function AdminSignUp() {
       return false;
     }
 
-    const namePattern = /^[a-zA-Z\s]+$/; 
+    const namePattern = /^[a-zA-Z\s]+$/;
     if (!namePattern.test(inputName)) {
       setNameError("Name should contain only letters and spaces");
       return false;
@@ -58,7 +58,7 @@ export default function AdminSignUp() {
   };
 
   const validateContact = (inputContact) => {
-    const contactPattern = /^\d{10}$/; 
+    const contactPattern = /^\d{10}$/;
     if (!contactPattern.test(inputContact)) {
       setContactError("Invalid contact number (10 digits required)");
       return false;
@@ -206,6 +206,6 @@ export default function AdminSignUp() {
           </form>
         </div>
       </div>
-    </>
-  );
+    </>
+  );
 }

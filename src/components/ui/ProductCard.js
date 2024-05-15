@@ -21,7 +21,7 @@ const ProductCard = () => {
 
     if (!productList) return null;
 
-    const productDetails = productList.slice(0, 8);
+    const productDetails = productList.slice(0, 16);
 
     const calculateAverageRating = (ratings) => {
         if (ratings.length === 0) {
@@ -56,6 +56,8 @@ const ProductCard = () => {
                         </div>
 
                         <AddToCart margin={"ml-0"} productId={product._id} />
+                        
+                        <button className='ml-0 mt-3 w-full font-oswald flex items-center justify-center rounded-md bg-slate-900 px-5 py-2.5 text-center text-sm font-medium text-white hover:bg-gray-700 focus:outline-none focus:ring-4 focus:ring-blue-300'>Buy Now</button>
                     </div>
                 </div>
             ))}

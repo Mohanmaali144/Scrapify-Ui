@@ -24,17 +24,12 @@ function AddToCart({ productId, margin, onClick }) {
             if (!user) {
                 // navigate("/");
             }
-             await dispatch(addProductToCart({ productId, userId: user._id }));
+            await dispatch(addProductToCart({ productId, userId: user._id }));
 
             fetchCartItems();
             toast.success("Product successfully added to cart!");
         } catch (error) {
-            console.log(error.response.status);
-            if (error.response.status == 409) {
-                toast.warning("Product Allredy Added in cart");
-            }
             console.error("Error adding product to cart:", error);
-            // toast.success("Product is Alredy added into cart!");
         }
     };
     return <>

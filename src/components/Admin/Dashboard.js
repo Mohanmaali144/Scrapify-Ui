@@ -1,4 +1,4 @@
-export default function Dashoard() {
+export default function Dashboard() {
     return <>
         <div className="h-full overflow-hidden pl-10">
             <main id="dashboard-main" className="h-[calc(100vh-10rem)] overflow-auto px-4 py-10">

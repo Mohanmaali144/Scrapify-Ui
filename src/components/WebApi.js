@@ -49,6 +49,7 @@ const Api = {
     AddAddress: "http://localhost:8000/api/address/addAddress",
     GetAddress: "http://localhost:8000/api/address/getAddress",
     UpdateAddress: "http://localhost:8000/api/address/updateAddress",
+    GetVehicle: `http://localhost:8000/api/Vahicle/getVehicleList`
 
 }
 

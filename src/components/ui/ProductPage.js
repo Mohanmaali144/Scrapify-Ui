@@ -3,7 +3,6 @@ import React, { useState } from 'react';
 import { useLocation } from 'react-router-dom';
 import AddToCart from './AddToCart.js';
 import ImageMagnifier from './ImageMagnifier.tsx';
-import QuantityButton from './QuantityButton';
 import UserReview from './UserReview';
 import "./css/ProductPage.css";
 
@@ -56,9 +55,7 @@ const ProductPage = () => {
                                 </p>
                             </div>
                             <div className='flex'>
-                                <QuantityButton />
-                                <AddToCart margin={"ml-10"} />
-
+                                <AddToCart margin={"ml-1"} productId={state._id} />
                             </div>
                         </div>
                     </div>

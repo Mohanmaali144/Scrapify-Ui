@@ -4,11 +4,10 @@ import Api from "../components/WebApi";
 export const getScrapCategorySlice = createAsyncThunk("ScrapCategorySlice/getScrapCategorySlice", async () => {
     try {
         let response = await axios.get(Api.GetScrapCategory);
-        console.log(response.data.categoryList[0].categoryName);
         return response.data.categoryList;
     }
     catch (err) {
-
+        // log
     }
 });
 const slice = createSlice({

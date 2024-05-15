@@ -1,32 +1,23 @@
-import { useState } from "react";
 import { FaClipboardList, FaRegListAlt } from "react-icons/fa";
 import { FaTruckFast, FaUser } from "react-icons/fa6";
 import { FcFeedback } from "react-icons/fc";
 import { TbListDetails } from "react-icons/tb";
-import Dashboard from "./Dashboard";
-import Feedback from "./Feedback";
-import OrderDetails from "./OrderDetails";
-import ProductDetails from "./ProductDetails";
-import ScrapList from "./ScrapList";
-import UserDetails from "./UserDetails";
-import VehicleDetails from "./VehicleDetails";
+import { Link, Outlet, useNavigate } from "react-router-dom";
 
 export default function Menu() {
-  const [isOrders, setOrders] = useState(false);
-  const [isDashboard, setDashboard] = useState(true);
-  const [isProduct, setProduct] = useState(false);
-  const [isScrapList, setScrapList] = useState(false);
-  const [isVehicleDetails, setVehicleDetails] = useState(false);
-  const [isUserDetails, setUserDetails] = useState(false);
-  const [isFeedback, setFeedback] = useState(false);
+  const navigate = useNavigate();
+
+  const handleGoBack = () => {
+    navigate("/adminHome"); // Navigate back to the index component
+  };
 
   return (
     <>
-      <div className="bg-slate-200 flex h-screen">
+      <div className="bg-slate-300 flex h-screen">
         <aside className="fixed z-50 md:relative">
           <input type="checkbox" className="peer hidden" id="sidebar-open" />
           <label
-            className="peer-checked:rounded-full peer-checked:p-2 peer-checked:right-6 peer-checked:bg-gray-600 peer-checked:text-white absolute top-8 z-20 mx-4 cursor-pointer md:hidden"
+            className="peer-checked:rounded-full peer-checked:p-2 peer-checked:right-6 peer-checked:bg-gray-900 peer-checked:text-white absolute top-8 z-20 mx-4 cursor-pointer md:hidden"
             for="sidebar-open"
           >
             <svg
@@ -46,20 +37,11 @@ export default function Menu() {
           </label>
           <nav
             aria-label="Sidebar Navigation"
-            className="peer-checked:w-64 left-0 z-10 flex h-screen w-0 flex-col overflow-hidden bg-gray-700 text-white transition-all md:h-screen md:w-64 lg:w-72"
+            className="peer-checked:w-64 left-0 z-10 flex h-screen w-0 flex-col overflow-hidden bg-gray-900 text-white transition-all md:h-screen md:w-64 lg:w-72"
           >
             <ul className="mt-8 space-y-3 md:mt-20">
               <li className="relative">
-                <button
-                  onClick={() => {
-                    setDashboard(true);
-                    setOrders(false);
-                    setProduct(false);
-                    setScrapList(false);
-                    setUserDetails(false);
-                    setVehicleDetails(false);
-                    setFeedback(false);
-                  }}
+                <button onClick={handleGoBack}
                   className="focus:bg-slate-600 hover:bg-slate-600 flex w-full space-x-2 rounded-md px-10 py-4 text-gray-300 focus:outline-none text-lg"
                 >
                   <span>
@@ -83,108 +65,59 @@ export default function Menu() {
               </li>
 
               <li className="relative">
-                <button
-                  onClick={() => {
-                    setDashboard(false);
-                    setOrders(true);
-                    setProduct(false);
-                    setScrapList(false);
-                    setUserDetails(false);
-                    setVehicleDetails(false);
-                    setFeedback(false);
-                  }}
+                <Link
+                  to={'orderdetails'}
                   className="focus:bg-slate-600 hover:bg-slate-600 flex w-full space-x-2 rounded-md px-10 py-4 text-gray-300 focus:outline-none text-lg"
                 >
                   <span>
                     <FaClipboardList className="h-6 w-6" />
                   </span>
                   <span className="">Order Details</span>
-                </button>
+                </Link>
               </li>
 
               <li className="relative">
-                <button
-                  onClick={() => {
-                    setDashboard(false);
-                    setOrders(false);
-                    setProduct(true);
-                    setScrapList(false);
-                    setUserDetails(false);
-                    setVehicleDetails(false);
-                    setFeedback(false);
-                  }}
+                <Link to={'productdetails'}
                   className="focus:bg-slate-600 hover:bg-slate-600 flex w-full space-x-2 rounded-md px-10 py-4 text-gray-300 focus:outline-none text-lg"
                 >
                   <span>
                     <TbListDetails className="h-6 w-6" />
                   </span>
                   <span>Product Stock</span>
-                </button>
+                </Link>
               </li>
 
               <li className="relative">
-                <button onClick={() => {
-                  setDashboard(false);
-                  setOrders(false);
-                  setProduct(false);
-                  setScrapList(true);
-                  setUserDetails(false);
-                  setVehicleDetails(false);
-                  setFeedback(false);
-                }} className="focus:bg-slate-600 hover:bg-slate-600 flex w-full space-x-2 rounded-md px-10 py-4 text-gray-300 focus:outline-none text-lg">
+                <Link to={'scraplist'} className="focus:bg-slate-600 hover:bg-slate-600 flex w-full space-x-2 rounded-md px-10 py-4 text-gray-300 focus:outline-none text-lg">
                   <span>
                     <FaRegListAlt className="h-6 w-6" />
                   </span>
                   <span className="">Scrap List</span>
-                </button>
+                </Link>
               </li>
               <li className="relative">
-                <button onClick={() => {
-                  setDashboard(false);
-                  setOrders(false);
-                  setProduct(false);
-                  setScrapList(false);
-                  setUserDetails(true);
-                  setVehicleDetails(false);
-                  setFeedback(false);
-                }} className="focus:bg-slate-600 hover:bg-slate-600 flex w-full space-x-2 rounded-md px-10 py-4 text-gray-300 focus:outline-none text-lg">
+                <Link to={'userdetails'} className="focus:bg-slate-600 hover:bg-slate-600 flex w-full space-x-2 rounded-md px-10 py-4 text-gray-300 focus:outline-none text-lg">
                   <span>
                     <FaUser className="h-6 w-6" />
                   </span>
                   <span className="">User Details</span>
-                </button>
+                </Link>
               </li>
               <li className="relative">
-                <button onClick={() => {
-                  setDashboard(false);
-                  setOrders(false);
-                  setProduct(false);
-                  setScrapList(false);
-                  setUserDetails(false);
-                  setVehicleDetails(true);
-                  setFeedback(false);
-                }} className="focus:bg-slate-600 hover:bg-slate-600 flex w-full space-x-2 rounded-md px-10 py-4 text-gray-300 focus:outline-none text-lg">
+                <Link to={'vehicledetails'} className="focus:bg-slate-600 hover:bg-slate-600 flex w-full space-x-2 rounded-md px-10 py-4 text-gray-300 focus:outline-none text-lg">
                   <span>
                     <FaTruckFast className="h-6 w-6" />
                   </span>
                   <span className="">Vehicle Details</span>
-                </button>
+                </Link>
               </li>
               <li className="relative">
-                <button onClick={() => {
-                  setDashboard(false);
-                  setOrders(false);
-                  setProduct(false);
-                  setScrapList(false);
-                  setUserDetails(false);
-                  setVehicleDetails(false);
-                  setFeedback(true);
-                }} className="focus:bg-slate-600 hover:bg-slate-600 flex w-full space-x-2 rounded-md px-10 py-4 text-gray-300 focus:outline-none text-lg">
+                <Link to={'feedback'} className="focus:bg-slate-600 hover:bg-slate-600 flex w-full space-x-2 rounded-md px-10 py-4 text-gray-300 focus:outline-none text-lg">
                   <span>
                     <FcFeedback className="h-6 w-6" />
                   </span>
                   <span className="">Feedback</span>
-                </button>
+                </Link>
               </li>
             </ul>
 
@@ -300,16 +233,7 @@ export default function Menu() {
             </div>
           </header>
           {/* context here other compoennets */}
-          {isOrders ? <OrderDetails /> : ""}
-          {isDashboard ? <Dashboard /> : ""}
-          {isProduct ? <ProductDetails /> : ""}
-          {isScrapList ? <ScrapList /> : ""}
-          {isVehicleDetails ? <VehicleDetails /> : ""}
-          {isUserDetails ? <UserDetails /> : ""}
-          {isFeedback ? <Feedback /> : ""}
-
-
-          {/* end compoennets */}
+          <Outlet />
         </div>
       </div>
     </>

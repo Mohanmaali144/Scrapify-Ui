@@ -88,14 +88,14 @@ function ScrapUploadForm() {
 
     return (
         <div className="sm:w-3/5 w-10/12 h-full flex justify-center items-center border-2 border-slate-800 rounded-xl p-4">
-            <form className='grid-cols-2 w-10/12 grid gap-4' onSubmit={handleSubmit} enctype="multipart/form-data">
+            <form className='grid-cols-1 sm:grid-cols-2  w-10/12 grid gap-4' onSubmit={handleSubmit} enctype="multipart/form-data">
 
                 <div className='col-span-2'>
                     <div> <Label htmlFor="title" value="Title" /></div>
                     <TextInput type="text" name="title" placeholder="Title" onChange={handleInputChange} />
                 </div>
 
-                <div className='col-span-1'>
+                <div className='sm:col-span-1 col-span-2'>
                     <div> <Label htmlFor="category" value="Category" /></div>
                     <select className="select select-bordered" name="categoryName" onChange={handleInputChange}>
                         <option disabled selected>Pick one</option>
@@ -107,19 +107,19 @@ function ScrapUploadForm() {
                     </select>
                 </div>
 
-                <div className='col-span-1'>
+                <div className='sm:col-span-1 col-span-2'>
                     <div>
                         <Label htmlFor="condition" value="Conditon" />
                     </div>
                     <select className="select select-bordered" name="condition" onChange={handleInputChange}>
                         <option disabled selected  >Pick Up One</option>
-                        <option  value={'good'}>Good</option>
+                        <option value={'good'}>Good</option>
                         <option value={'medium'}>Medium</option>
                         <option value={'worst'}>Worst</option>
                     </select>
                 </div>
 
-                <div className='col-span-2'>
+                <div className='sm:col-span-2 col-span-2'>
                     <label className="form-control">
                         <div className="label">
                             <span className="label-text">Add Scrap Description</span>
@@ -129,12 +129,12 @@ function ScrapUploadForm() {
                         </textarea>
                     </label>
                 </div>
-                <div className='cols-span-2'>
+                <div className='sm:cols-span-2 col-span-2'>
                     <div> <Label htmlFor="price" value="Price" /></div>
                     <TextInput type="number" name="price" placeholder="Price" onChange={handleInputChange} />
                 </div>
 
-                <div className='col-span-1'>
+                <div className='sm:col-span-1 col-span-2'>
                     <div> <Label htmlFor="state" value="State" /></div>
                     <select className="select select-bordered" onChange={(e) => setStateCode(e.target.value)}>
                         {StateName.map((state, index) => (
@@ -145,7 +145,7 @@ function ScrapUploadForm() {
                     </select>
 
                 </div>
-                <div className='col-span-1'>
+                <div className='sm:col-span-1 col-span-2'>
                     <div>
                         <Label htmlFor="state" value="city" />
                     </div>
@@ -156,29 +156,28 @@ function ScrapUploadForm() {
                     </select>
                 </div>
 
-                <div className='col-span-1'>
+                <div className='sm:col-span-1  col-span-2'>
                     <div> <Label htmlFor="landmark" value="landmark" /></div>
                     <TextInput name='landmark' placeholder='landmark' onChange={handleInputChange} />
                 </div>
 
-                <div className='col-span-1'>
+                <div className='sm:col-span-1 col-span-2'>
                     <div> <Label htmlFor="landmark" value="fullAddress" /></div>
                     <TextInput type="text" name="fullAddress" placeholder="fullAddress" onChange={handleInputChange} />
                 </div>
 
-                <div className='col-span-1'>
+                <div className='sm:col-span-1'>
                     <div> <Label htmlFor="pincode" value="pincode" /></div>
                     <TextInput type="text" name="pincode" placeholder="pincode" onChange={handleInputChange} />
                 </div>
 
-                <div className='col-span-2'>
+                <div className='col-span-2 sm:col-span-2'>
                     <div>
                         <div className="mb-2 block">
                             <Label htmlFor="file-upload" value="Upload File" />
                         </div>
                         <FileInput type="file" name="thumbnail" accept="image/*" onChange={handleThumbnailChange} id="file-upload" />
                     </div>
-                    <input />
                 </div>
 
                 <div className='col-span-2'>

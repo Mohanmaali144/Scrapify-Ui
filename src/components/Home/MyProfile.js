@@ -4,9 +4,10 @@ import SlTabPanel from '@shoelace-style/shoelace/dist/react/tab-panel';
 import { useContext, useEffect } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { UserContext } from '../../App';
+import MyOrders from "../ui/MyOrders";
 import Notifications from './Notifications';
-import SellProducts from "./SellProducts";
 import SellScrap from "./SellScrap";
+import UserMessages from './UserMessages';
 import UserProfile from "./UserProfile";
 
 export default function MyProfile() {
@@ -27,10 +28,10 @@ export default function MyProfile() {
                     <SlTab slot="nav" panel="profile">
                         My Profile
                     </SlTab>
-                    <SlTab slot="nav" panel="products">
-                        My Products
+                    <SlTab slot="nav" panel="order">
+                        My Order
                     </SlTab>
-                    <SlTab slot="nav" panel="scrap">
+                    <SlTab slot="nav" panel="scrap" active={state}>
                         My Scrap
                     </SlTab>
                     <SlTab slot="nav" panel="message">
@@ -40,9 +41,9 @@ export default function MyProfile() {
                         Notifications
                     </SlTab>
                     <SlTabPanel name="profile"><UserProfile /></SlTabPanel>
-                    <SlTabPanel name="products"><SellScrap /></SlTabPanel>
-                    <SlTabPanel name="scrap"><SellProducts /></SlTabPanel>
-                    <SlTabPanel name="message"><SellProducts /></SlTabPanel>
+                    <SlTabPanel name="scrap"><SellScrap /></SlTabPanel>
+                    <SlTabPanel name="message"><UserMessages /></SlTabPanel>
+                    <SlTabPanel name="order"><MyOrders /></SlTabPanel>
                     <SlTabPanel name="notification"><Notifications /></SlTabPanel>
                 </SlTabGroup>
             </div>

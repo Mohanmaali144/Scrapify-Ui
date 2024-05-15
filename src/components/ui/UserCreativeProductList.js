@@ -6,6 +6,7 @@ import axios from 'axios';
 import { useContext, useEffect, useState } from 'react';
 import { RiDeleteBin6Line } from "react-icons/ri";
 import { useNavigate } from 'react-router-dom';
+import swal from 'sweetalert';
 import { UserContext } from '../../App';
 import Api from '../WebApi';
 
@@ -15,6 +16,7 @@ export default function UserCreativeProductList() {
     const navigate = useNavigate();
     const [isLoading, setIsLoading] = useState(true);
     const [isDeleteLoading, setIsDeleteLoading] = useState(false);
+    const [iscrapDeleteBtn, setDeleteScrapBtn] = useState(false);
     const [error, setError] = useState('');
 
     useEffect(() => {
@@ -39,18 +41,40 @@ export default function UserCreativeProductList() {
 
 
     const handleDeleteProduct = async (productId) => {
-        setIsDeleteLoading(true);
-        try {
-            const response = await axios.delete(`${Api.DeleteProductById}/${productId}`);
-            console.log('Product deleted:', response.data);
-            const updatedProductList = userProductList.filter((product) => product._id !== productId);
-            setUserProductList(updatedProductList);
-            setIsDeleteLoading(false);
-        } catch (error) {
-            console.log('Error deleting product:', error);
-            setIsDeleteLoading(false)
-        }
-    };
+        setDeleteScrapBtn(true);
+        swal({
+            title: "Are you sure?",
+            text: "You want Delete The Scrap ?",
+            icon: "warning",
+            buttons: ["Cancel", "OK"], // Array containing button text
+            dangerMode: true,
+        })
+            .then(async (willDelete) => {
+                if (willDelete) {
+                    setIsDeleteLoading(true);
+                    swal("Product Deleted", {
+                        icon: "success",
+                    });
+
+                    try {
+                        const response = await axios.delete(`${Api.DeleteProductById}/${productId}`);
+                        console.log('Product deleted:', response.data);
+                        const updatedProductList = userProductList.filter((product) => product._id !== productId);
+                        setUserProductList(updatedProductList);
+                        setIsDeleteLoading(false);
+                    } catch (error) {
+                        console.log('Error deleting product:', error);
+                        setIsDeleteLoading(false)
+                    }
+
+                } else {
+                    setDeleteScrapBtn(false);
+                }
+            });
+    }
+
+
+
     const handleProductDtails = (product) => {
         navigate('/userproductdetails', { state: product });
     }
@@ -98,7 +122,7 @@ export default function UserCreativeProductList() {
                             <br />
                             <div className='w-full'>
                                 <small>{product.createdAt}</small>
-                                <button disabled={isDeleteLoading} onClick={() => { if (window.confirm('Are You want to Delete this')) handleDeleteProduct(product._id) }} className='text-xl float-right btn btn-outline btn-warning'  >{isDeleteLoading ? <SlSpinner /> : <RiDeleteBin6Line />}</button>
+                                <button disabled={isDeleteLoading} onClick={() => { handleDeleteProduct(product._id) }} className='text-xl float-right btn btn-outline btn-warning'  >{isDeleteLoading ? <SlSpinner /> : <RiDeleteBin6Line />}</button>
                             </div>
                             <div slot="footer">
                                 <SlButton variant="primary" pill onClick={() => handleProductDtails(product)}>

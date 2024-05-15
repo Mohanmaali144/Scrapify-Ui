@@ -24,11 +24,9 @@ export const addProductToCart = createAsyncThunk(
         try {
             console.log(productId, userId);
             const response = await axios.post(Api.AddToCart, { productId, userId });
-            console.log(response.data);
             return response.data;
         } catch (error) {
             console.log(error.response.status);
-            // console.error("Error adding product to cart:", error);
             return error;
         }
     }

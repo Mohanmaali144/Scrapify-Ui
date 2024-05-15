@@ -24,8 +24,8 @@ export default function Footer() {
             <div className=' w-full sm:w-1/3 h-[200px] flex - justify-start items-center flex-col'>
                 {/* logo */}
                 <div className=''>
-                    <h3 className="text-3xl font-extrabold cursor-pointer">SCREPIFY</h3>
-                    <span className="text-sm font-bold opacity-65 cursor-pointer text-center">Slogan paste here</span>
+                    <h3 className="text-3xl font-extrabold cursor-pointer">SCRAPIFY</h3>
+                    <span className="text-sm font-bold opacity-65 cursor-pointer text-center">"Scrap, Sell, Save"</span>
                 </div>
                 <img className='w-2/5 cursor-pointer' src={googleApple} />
             </div>
